@@ -1,4 +1,4 @@
 # Fichier readme
 Le déploiement de ces scripts doit se faire sous :
-* /usr/local/bin pour usr-local-bin
-* /home/<user> pour home-mnu
+		* /usr/local/bin pour usr-local-bin
+		* /home/<user> pour home-mnu
