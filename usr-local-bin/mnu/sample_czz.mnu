@@ -1,0 +1,631 @@
+[MAIN] Reprise des donnees - Menu Principal
+4 Initialisation de la base Oracle
+  A export DT128B=czzgtfy0
+  M BASEINI
+3 Initialisation du schema de migration
+  M MIGINI
+3 Preparation des fichiers de chargement (OMLE)
+  M PREFIC
+3 Debranchement des triggers
+  B $CCAT_BatchPublish/bin/jzz010y6 ${AUC_DBUSER} disable
+5 Alimentation de l'objet de gestion Fournisseur Comptable (CADGTF01)
+  A export DT128B=cadgtf01
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CADGTF01
+3 Alimentation de l'objet de gestion Fournisseur Commerce (CZZGTFC0)
+  A export DT128B=czzgtfc0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFC0 4
+3 Alimentation de l'objet de gestion Marque (CZZGTFM0)
+  A export DT128B=czzgtfm0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFM0 4
+3 Alimentation de l'objet de gestion Article (CZZGTFR0)
+  A export DT128B=czzgtfr0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFR0 4
+3 Alimentation de l'objet de gestion Référence Interne (CZZGTFN0)
+  A export DT128B=czzgtfn0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFN0 4
+3 Alimentation de l'objet de gestion Référence Fournisseur (CZZGTFB0)
+  A export DT128B=czzgtfb0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFB0 4
+3 Controle inter-flux : Ref. Int. et Ref. Fourn.(CZZGTFV0)
+  A export DT128B=czzgtfv0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFV1 4
+3 Alimentation de l'objet de gestion Unité d'encaissement (CZZGTFU0)
+  A export DT128B=czzgtfu0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFU0 4
+3 Alimentation de l'objet de gestion Produits de l'Offre (CZZGTFP0)
+  A export DT128B=czzgtfp0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFP0 4
+3 Alimentation de l'objet de gestion Filière d'approvisionnement (CZZGTFI0)
+  A export DT128B=czzgtfi0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFI0 4
+3 Alimentation de l'objet de gestion Structure Tarifaire (CZZGTFS0)
+  A export DT128B=czzgtfs0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFS0 4
+3 Alimentation de l'objet de gestion Accord (CZZGTFA0)
+  A export DT128B=czzgtfa0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFA0 4
+3 Alimentation de l'objet de gestion Groupe de Produits (CZZGTFG0)
+  A export DT128B=czzgtfg0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFG0 4
+3 Controle inter-flux : Accord et Groupe de Produit(CZZGTFV0)
+  A export DT128B=czzgtfv0
+  P $HOME/ablytests/${DT128B}_at/technical c2_par.lst
+  M CZZGTFV2 4
+3 Alimentation de l'objet de gestion Conditions Tarifaires (CZZGTFT0)
+  A export DT128B=czzgtft0
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst
+  M CZZGTFT0 4
+3 Re-branchement des triggers
+  B $CCAT_BatchPublish/bin/jzz010y6 ${AUC_DBUSER} enable
+1 Exit
+  Q Exit 
+
+[BASEINI] Initialisation de la base Oracle
+5 Chargement du Jeux de Test TV & Nomenclature (JdT CTG)
+  A tpdload $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[MIGINI] Initialisation du schema de migration
+9 Processus d'initialisation du schema de migration
+  A $CCAT_BatchPublish/bin/jzz010y3 all > /tmp/${LOGNAME}_czz_migini.log
+3 Processus d'initialisation du schema de migration -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y3 ${AUC_DBUSER} all > /tmp/${LOGNAME}_czz_migini.log
+3 Processus d'initialisation du schema de migration -NEW- (avec tablespace)
+  A $CCAT_BatchPublish/bin/jzz010y3 ${AUC_DBUSER} all ${MIG_TABLESPACE} > /tmp/${LOGNAME}_czz_migini.log
+3 Visualisation du log d'initialisation du schema de migration
+  A vi /tmp/${LOGNAME}_czz_migini.log
+3 Suppression des index par defaut
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr"
+1 Return to Main menu
+  M MAIN
+
+[PREFIC] Preparation des fichiers de chargement (OMLE)
+3 Suppression des espaces non significatifs
+  E Traitement des fichiers du repertoire ${CCAT_TransferPublish}/${CCAT_TransferReceive}
+  A ${CCAT_BatchPublish}/bin/jzz010y5
+1 Return to Main menu
+  M MAIN
+
+[CADGTF01] Alimentation de l'objet de gestion Fournisseur Comptable (CADGTF01)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Integration Bottin Fournisseur
+  B $CCAT_BatchPublish/schedule/sad01001 $CAD_NSQ_T16 $CAD_FILE_DAT
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFA0] Alimentation de l'objet de gestion Accord (CZZGTFA0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsa1.ctl $CZZ_INPUT_FILE_REP/acc01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsa2.ctl $CZZ_INPUT_FILE_REP/acc02.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsa3.ctl $CZZ_INPUT_FILE_REP/acc03.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsa4.ctl $CZZ_INPUT_FILE_REP/acc04.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsa5.ctl $CZZ_INPUT_FILE_REP/acc05.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsa6.ctl $CZZ_INPUT_FILE_REP/acc06.csv $TEC_CSV
+3 Creation des index avant l'enrichissement
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('ACC')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsar.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('ACC')"
+3 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsas.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR,$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_acc" P
+3 Gestion des erreurs en Cascade -NEW-
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_acc('${AUC_DBUSER}')" P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('ACC')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_acc" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'ACC')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_acc" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('ACC')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('ACC')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFB0] Alimentation de l'objet de gestion Référence Fournisseur (CZZGTFB0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsb1.ctl $CZZ_INPUT_FILE_REP/rfr01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsb2.ctl $CZZ_INPUT_FILE_REP/rfr02.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsb3.ctl $CZZ_INPUT_FILE_REP/rfr03.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsb4.ctl $CZZ_INPUT_FILE_REP/rfr04.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsb5.ctl $CZZ_INPUT_FILE_REP/rfr05.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsb6.ctl $CZZ_INPUT_FILE_REP/rfr06.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsb7.ctl $CZZ_INPUT_FILE_REP/rfr07.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsb8.ctl $CZZ_INPUT_FILE_REP/rfr08.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('RFR')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsbr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('RFR')"
+3 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsbs.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_rfr" P
+3 Gestion des erreurs en Cascade -NEW-
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_rfr('${AUC_DBUSER}')" P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('RFR')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_rfr" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'RFR')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_rfr" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('RFR')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('RFR')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFC0] Alimentation de l'objet de gestion Fournisseur Commerce (CZZGTFC0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc1.ctl $CZZ_INPUT_FILE_REP/fco01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc2.ctl /dev/null  $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc3.ctl $CZZ_INPUT_FILE_REP/fco03.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc4.ctl $CZZ_INPUT_FILE_REP/fco04.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc5.ctl $CZZ_INPUT_FILE_REP/fco05.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc6.ctl $CZZ_INPUT_FILE_REP/fco06.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc7.ctl $CZZ_INPUT_FILE_REP/fco07.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc8.ctl $CZZ_INPUT_FILE_REP/fco08.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsc9.ctl $CZZ_INPUT_FILE_REP/fco09.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsca.ctl $CZZ_INPUT_FILE_REP/fco10.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbscb.ctl $CZZ_INPUT_FILE_REP/fco11.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('FCO')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbscr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('FCO')"
+3 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbscs.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_fco" P
+3 Gestion des erreurs en Cascade -NEW-
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_fco('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('FCO')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_fco" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'FCO')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_fco" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('FCO')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('FCO')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFG0] Alimentation de l'objet de gestion Groupe de Produits (CZZGTFG0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsg1.ctl $CZZ_INPUT_FILE_REP/grp01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsg2.ctl $CZZ_INPUT_FILE_REP/grp02.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsg3.ctl $CZZ_INPUT_FILE_REP/grp03.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsg4.ctl $CZZ_INPUT_FILE_REP/grp04.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsg5.ctl $CZZ_INPUT_FILE_REP/grp05.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('GRP')"
+3 Processus d'Enrichissement des donnees
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsgr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('GRP')"
+3 Processus de Controle des donnees
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsgs.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_grp" P
+3 Gestion des erreurs en Cascade -NEW-
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_grp('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('GRP')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_grp" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'GRP')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_grp" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('GRP')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('GRP')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFI0] Alimentation de l'objet de gestion Filière d'approvisionnement (CZZGTFI0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsi1.ctl $CZZ_INPUT_FILE_REP/fil01.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsi2.ctl $CZZ_INPUT_FILE_REP/fil02.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('FIL')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsir.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('FIL')"
+3 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsis.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_fil" P
+3 Gestion des erreurs en Cascade -NEW-
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_fil('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('FIL')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_fil" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'FIL')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_fil" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('FIL')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('FIL')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFM0] Alimentation de l'objet de gestion Marque (CZZGTFM0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsm1.ctl $CZZ_INPUT_FILE_REP/mrq01.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsm2.ctl $CZZ_INPUT_FILE_REP/mrq02.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('MRQ')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsmr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_mrq" P
+3 Gestion des erreurs en Cascade -NEW-
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_mrq('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('MRQ')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_mrq" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'MRQ')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_mrq" P
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFN0] Alimentation de l'objet de gestion Référence Interne (CZZGTFN0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn1.ctl $CZZ_INPUT_FILE_REP/rin01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn2.ctl $CZZ_INPUT_FILE_REP/rin02.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn3.ctl $CZZ_INPUT_FILE_REP/rin03.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn4.ctl $CZZ_INPUT_FILE_REP/rin04.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn5.ctl $CZZ_INPUT_FILE_REP/rin05.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn6.ctl $CZZ_INPUT_FILE_REP/rin06.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn7.ctl $CZZ_INPUT_FILE_REP/rin07.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn8.ctl $CZZ_INPUT_FILE_REP/rin08.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsn9.ctl $CZZ_INPUT_FILE_REP/rin09.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsna.ctl $CZZ_INPUT_FILE_REP/rin10.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsnb.ctl $CZZ_INPUT_FILE_REP/rin11.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsnc.ctl $CZZ_INPUT_FILE_REP/rin12.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsnd.ctl $CZZ_INPUT_FILE_REP/rin13.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsne.ctl $CZZ_INPUT_FILE_REP/rin14.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsnf.ctl $CZZ_INPUT_FILE_REP/rin15.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsng.ctl $CZZ_INPUT_FILE_REP/rin16.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('RIN')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsnr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('RIN')"
+3 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsns.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_rin" P
+3 Gestion des erreurs en Cascade -NEW-
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_rin('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('RIN')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_rin" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'RIN')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_rin" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('RIN')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('RIN')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFP0] Alimentation de l'objet de gestion Produits de l'Offre (CZZGTFP0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsp1.ctl $CZZ_INPUT_FILE_REP/pof01.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsp2.ctl $CZZ_INPUT_FILE_REP/pof02.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('POF')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbspr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('POF')"
+3 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsps.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_pof" P
+3 Gestion des erreurs en Cascade -NEW-
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_pof('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('POF')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_pof" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'POF')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_pof" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('POF')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('POF')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFR0] Alimentation de l'objet de gestion Article (CZZGTFR0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr1.ctl $CZZ_INPUT_FILE_REP/art01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr2.ctl $CZZ_INPUT_FILE_REP/art02.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr3.ctl $CZZ_INPUT_FILE_REP/art03.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr4.ctl $CZZ_INPUT_FILE_REP/art04.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr5.ctl $CZZ_INPUT_FILE_REP/art05.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr6.ctl $CZZ_INPUT_FILE_REP/art06.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr7.ctl $CZZ_INPUT_FILE_REP/art07.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr8.ctl $CZZ_INPUT_FILE_REP/art08.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsr9.ctl $CZZ_INPUT_FILE_REP/art09.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsra.ctl $CZZ_INPUT_FILE_REP/art10.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('ART')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsrr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('ART')"
+3 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsrs.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_art" P
+3 Gestion des erreurs en Cascade -NEW-
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_art('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('ART')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_art" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'ART')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_art" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('ART')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('ART')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFS0] Alimentation de l'objet de gestion Structure Tarifaire (CZZGTFS0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbss1.ctl $CZZ_INPUT_FILE_REP/stt01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbss2.ctl $CZZ_INPUT_FILE_REP/stt02.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbss3.ctl $CZZ_INPUT_FILE_REP/stt03.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbss4.ctl $CZZ_INPUT_FILE_REP/stt04.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('STT')"
+3 Processus d'Enrichissement des donnees
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbssr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('STT')"
+3 Processus de Controle des donnees
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsss.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_stt" P
+3 Gestion des erreurs en Cascade -NEW-
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_stt('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('STT')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_stt" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'STT')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_stt" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('STT')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('STT')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFT0] Alimentation de l'objet de gestion Conditions Tarifaires (CZZGTFT0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbst1.ctl $CZZ_INPUT_FILE_REP/rft01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbst2.ctl $CZZ_INPUT_FILE_REP/rft02.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbst3.ctl $CZZ_INPUT_FILE_REP/rft03.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('RFT')"
+3 Processus d'Enrichissement des donnees
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbstr.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('RFT')"
+3 Processus de Controle des donnees
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsts.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_rft" P
+3 Gestion des erreurs en Cascade -NEW-
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_rft('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('RFT')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_rft" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'RFT')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_rft" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('RFT')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('RFT')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFU0] Alimentation de l'objet de gestion Unité d'encaissement (CZZGTFU0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Chargement des fichiers interfaces avec SQL*Loader
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsu1.ctl $CZZ_INPUT_FILE_REP/uen01.csv $TEC_CSV
+  A $CCAT_BatchPublish/bin/jzz010y1 czzgbsu2.ctl $CZZ_INPUT_FILE_REP/uen02.csv $TEC_CSV
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbsu3.ctl $CZZ_INPUT_FILE_REP/uen03.csv $TEC_CSV
+3 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('UEN')"
+3 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsur.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('UEN')"
+3 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsus.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+3 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_uen" P
+3 Gestion des erreurs en Cascade -NEW-
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_uen('${AUC_DBUSER}')"  P
+3 Transfert Final dans la base de Production
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('UEN')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_uen" P
+3 Transfert Final dans la base de Production -NEW-
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}', 'UEN')"
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_uen" P
+3 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('UEN')"
+3 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('UEN')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFV1] Controle inter-flux : Ref. Fourn. et Unité d'encaissement(CZZGTFV0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Processus de Controle des donnees en base de production
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsv0.mig_main ($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16 ,$CZZ_NSQ_VAR, 'RFR', 1)"
+3 Processus de Controle des donnees en base de production (special COS)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsv0.mig_main ($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16 ,$CZZ_NSQ_VAR, 'RFR')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTFV2] Controle inter-flux : Groupe de Produit et Conditions Tarifaires(CZZGTFV0)
+3 Modification des parametres d'env.
+  P $HOME/ablytests/${DT128B}_at/technical c2_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 2
+3 Processus de Controle des donnees en base de production
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsv0.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR,'GRP',1)"
+3 Processus de Controle des donnees en base de production (special FMT)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsv0.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR,'GRP')"
+5 Extraction du resultats
+  A tpdxtr  $DT128B 2
+5 Analyse du resultats
+  A bchcomp $DT128B 2
+1 Return to Main menu
+  M MAIN

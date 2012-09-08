@@ -1,0 +1,166 @@
+[MAIN] Interfaces standards Sortantes (ISS) - Menu Principal
+3 Charg. DA/Extraction Accord (CZXGTFX0/Z1/A0)
+  A export cpl_title=_Accord
+  A export DT128B=czxgtfa0
+  A export PRG_CODE=a0
+  A export PRG_CODE_DM=z1
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Ref. Fourn. (CZXGTFX0/Z2/B0)
+  A export cpl_title=_Ref._Fourn.
+  A export DT128B=czxgtfb0
+  A export PRG_CODE=b0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Fourn._Commerce (CZXGTFX0/Z1/C0)
+  A export cpl_title=_Fourn._Commerce
+  A export DT128B=czxgtfc0
+  A export PRG_CODE=c0
+  A export PRG_CODE_DM=z1
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  A echo $UNISON_SCHED_EPOCH
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Grp de Produits (CZXGTFX0/Z1/G0)
+  A export cpl_title=_Grp_de_Produits
+  A export DT128B=czxgtfg0
+  A export PRG_CODE=g0
+  A export PRG_CODE_DM=z1
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extract. Filière d'appro. (CZXGTFX0/Z3/I0)
+  A export cpl_title=_Filière_d_appro
+  A export DT128B=czxgtfi0
+  A export PRG_CODE=i0
+  A export PRG_CODE_DM=z3
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Marque (CZXGTFX0/Z2/M0)
+  A export cpl_title=_Marque
+  A export DT128B=czxgtfm0
+  A export PRG_CODE=m0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Réf._Interne (CZXGTFX0/Z2/N0)
+  A export cpl_title=_Ref_Interne
+  A export DT128B=czxgtfn0
+  A export PRG_CODE=n0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Offre (CZXGTFX0/Z3/O0)
+  A export cpl_title=_Offre
+  A export DT128B=czxgtfo0
+  A export PRG_CODE=o0
+  A export PRG_CODE_DM=z3
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Prod._de_l'Offre (CZXGTFX0/Z3/P0)
+  A export cpl_title=_Prod_de_l_Offre
+  A export DT128B=czxgtfp0
+  A export PRG_CODE=p0
+  A export PRG_CODE_DM=z3
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extract. Article (CZXGTFX0/Z2/R0)
+  A export cpl_title=_Article
+  A export DT128B=czxgtfr0
+  A export PRG_CODE=r0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Struct. Tarifaire (CZXGTFX0/Z1/S0)
+  A export cpl_title=_Struct_Tarifaire
+  A export DT128B=czxgtfs0
+  A export PRG_CODE=s0
+  A export PRG_CODE_DM=z1
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Cond. Tarifaires (CZXGTFX0/Z2/T0)
+  A export cpl_title=_Cond_Tarifaire
+  A export DT128B=czxgtft0
+  A export PRG_CODE=t0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Unite d'encaissement (CZXGTFX0/Z2/U0)
+  A export cpl_title=_Unite_d_encaissement
+  A export DT128B=czxgtfu0
+  A export PRG_CODE=u0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Promotion (CZXGTFX0/Z2/D0)
+  A export cpl_title=_Promotion
+  A export DT128B=czxgtfd0
+  A export PRG_CODE=d0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Nomenclature (CZXGTFX0/Z2/L0)
+  A export cpl_title=_Nomenclature
+  A export DT128B=czxgtfl0
+  A export PRG_CODE=l0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+3 Charg. DA/Extraction Prod._de_l'Offre_Mag (CZXGTFX0/Z2/Q0)
+  A export cpl_title=_Prod._de_l'Offre_en_Magasin
+  A export DT128B=czxgtfq0
+  A export PRG_CODE=f0
+  A export PRG_CODE_DM=z2
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  A export UNISON_SCHED_EPOCH=` BchBuildDate $CZX_SYS_DAT `
+  M CZXGTF_0 8
+9 Epuration des DA rejetees (CZXGTF29)
+  A export DT128B=czxgtf29
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CZXGTF29
+3 Generation du Bordereau de livraison
+  D $CCAT_BatchPublish/bin/jzx010y1 OFFLINE "$CZX_NSQ_VRN" "$CZX_NNC_NSQ_T16" "$CZX_NSQ_NNC" "$CZX_ENC_NSQ_T16" "$CZX_NSQ_ENC" "$CZX_NSQ_T16" "$CZX_NBR_RECORDS" "$CZX_IND_ENT_DAT" "$CZX_REP_FICHIERS"
+1 Exit
+  Q Exit 
+
+[CZXGTF_0] Charg. DA/Extraction
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+4 Chargement des DAs (mono-fichier)
+  D $CCAT_BatchPublish/bin/jzx010x0 OFFLINE "$CZX_INPUT_FILE" "$CZX_NSQ_T16"
+4 Convertion des DM en DA
+  D $CCAT_BatchPublish/bin/jzx010${PRG_CODE_DM} OFFLINE "$CZX_NSQ_T16"
+3 Processus d'extraction
+  D $CCAT_BatchPublish/bin/jzx010${PRG_CODE} OFFLINE "$CZX_NSQ_VRN" "$CZX_NNC_NSQ_T16" "$CZX_NSQ_NNC" "$CZX_ENC_NSQ_T16" "$CZX_NSQ_ENC" "$CZX_NSQ_T16" "$CZX_NBR_RECORDS" "$CZX_IND_ENT_DAT" "$CZX_REP_FICHIERS"
+1 Return to Main menu
+  A export cpl_title=
+  M MAIN
+
+[CZXGTF29] Epuration des DA rejetees (CZXGTF29)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/szy01029
+5 Extraction du resultats
+  A tpdxtr  $DT128B 1
+5 Analyse du resultats
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  A export CCAT_BatchPublish=/home/catalog/int/batch_1.0
+  M MAIN
