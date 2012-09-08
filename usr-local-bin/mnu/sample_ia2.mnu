@@ -1,0 +1,894 @@
+[MAIN] GIL Tools - Main Menu 
+1 SQL Plus
+  A sqlplus $AUC_DBUSER/$AUC_DBPASSWD
+1 Tapadu
+  A tapadu
+1 Gestion de l environnement
+  M ENV
+7 Team Leader Tools
+  A export cpl_title=Team_Leader_Tools
+  M TEAMLEADER
+1 User information
+  M USRINF
+2 Batch lot 1
+  M BATCHLOT1
+2 Batch lot 2
+  M BATCHLOT2
+8 Sous menu de test
+  N tst
+1 Exit
+  Q 
+
+[MAIN] Batchs Applicatifs Module 2 - Menu Principal IA
+3 Réception du Flux de Selection (CFVGGBS02)
+  A export DT228B=cfvgbs02
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CFVGBS02
+3 Identification des Nouvelles RI sélectionnées en Magasin (CEIGBS20)
+  A export DT228B=ceigbs20
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS20
+3 Consolidation Fournisseur (CEIGBS27)
+  A export DT228B=ceigbs27
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS27
+3 Intégration Infos Fournisseur (CEHGBSA1)
+  A export DT228B=cehgbsa1
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEHGBSA1      
+3 Consolidation Offre (CEIGBS26)
+  A export DT228B=ceigbs26
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS26
+3 Intégration de l'Offre (CEIGBS15)
+  A export DT228B=ceigbs15
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS15
+3 Consolidation RI (CEIGBS21)
+  A export DT228B=ceigbs21
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS21
+3 Intégration des données Article (CEIGBS11)
+  A export DT228B=ceigbs11
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS11       
+3 Réception des Infos Taxes (CEIGBS04)
+  A export DT228B=ceigbs04
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS04  
+3 Mise à jour des Unités d'Encaissement (CEIGBS14)
+  A export DT228B=ceigbs14
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS14  
+3 Réception des données Caractéristiques de Classe (CEIGBS10)
+  A export DT228B=ceigbs10
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS10  
+3 Consolidation Classes (CEIGBS28)
+  A export DT228B=ceigbs28
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS28  
+3 Consolidation Appro (CEIGBS25)
+  A export DT228B=ceigbs25
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS25  
+3 Consolidation Négo (CEIGBS24)
+  A export DT228B=ceigbs24
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS24
+3 Réception et Actualisation Automatique du Catalogue RI (CEIGBS06)
+  A export DT228B=ceigbs06
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS06
+3 Mise à jour du Lien RI/Offre (CEIGBS22)
+  A export DT228B=ceigbs22
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS22
+3 Récupération des Prix de Référence (CELGBS01)
+  A export DT228B=celgbs01
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CELGBS01        
+3 Génération Automatique de Propositions sur les Prix de Référence (CELGBS03)
+  A export DT228B=celgbs03
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CELGBS03
+3 Intégration des Rattachements Fournisseur (CEHGBSA2)
+  A export DT228B=cehgbsa2
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEHGBSA2
+3 Réception des données Article Déclinable (CEIGBS60)
+  A export DT228B=ceigbs60
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS60  
+3 Mise à jour de l'ENC pour Habilitations (CEIGBS03)
+  A export DT228B=ceigbs03
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS03  
+3 Génération des Propositions sur les Prix de Vente dans l'Offre (CELGBS05)
+  A export DT228B=celgbs05
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CELGBS05  
+3 Réception des Informations du Module Gestion de l'Offre (CEMGBS01)
+  A export DT228B=cemgbs01
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEMGBS01  
+3 Activation des Offres et Mise à jour du Statut de la RI (CEIGBS23)
+  A export DT228B=ceigbs23
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS23  
+3 Intégration de la Filière d'Appro (CEBGBSG1)
+  A export DT228B=cebgbsg1
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEBGBSG1  
+3 Activation de la Filière d'Appro (CEBGBSG7)
+  A export DT228B=cebgbsg7
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEBGBSG7  
+3 Intégration des Remises (CESGBS06)
+  A export DT228B=cesgbs06
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS06 
+3 Intégration des Accords (CESGBS05)
+  A export DT228B=cesgbs05
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS05
+3 Intégration des Cumuls Groupes Barémiques (CESGBS16)
+  A export DT228B=cesgbs16
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS16   
+3 Intégration des Remises Global Commande (CESGBS03)
+  A export DT228B=cesgbs03
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS03 
+3 Controle des Prix d'Achat (CESGBS17)
+  A export DT228B=cesgbs17
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS17   
+3 Intégration des Gratuits Hors Promo (CESGBS02)
+  A export DT228B=cesgbs02
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS02  
+3 Gestion des Promos à l'Achat (CESGBS07)
+  A export DT228B=cesgbs07
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS07  
+3 Gestion des Prix d'Achat Hors Promo (CESGBS09)
+  A export DT228B=cesgbs09
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS09  
+3 Gestion des Impacts Prix d'Achat (CESGBS10)
+  A export DT228B=cesgbs10
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS10  
+3 Calcul des Eléments Tarifaires et Types de Prix d'Achat (CESGBS11)
+  A export DT228B=cesgbs11
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CESGBS11  
+3 Réception du Flux d'Engagements (CFVGBS02)
+  A export DT228B=cfvgbs02
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CFVGBS02  
+3 Récupération des Engagements (CEIGBS29)
+  A export DT228B=ceigbs29
+  A export DateProd=`date +%Y%m%d`
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+  M CEIGBS29  
+     
+  
+  
+[CFVGBS02] Réception du Flux de Selection (CFVGBS02)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CFVGBS02_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "AdminSite""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "UserSite""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "Devise""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type STRING : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "Flux""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cfvgbs02 OFFLINE  "$AdminSite" "$UserSite" "$Devise" "$Flux"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+  
+[CEIGBS20] Identification des Nouvelles RI sélectionnées en Magasin (CEIGBS20)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs20 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+  
+[CEIGBS27] Consolidation Fournisseur (CEIGBS27)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CEIGBS27_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsu_sit""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs27 OFFLINE  "$nsu_sit"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+  
+[CEHGBSA1] Intégration Infos Fournisseur (CEHGBSA1)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CEHGBSA1_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsqt16""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsqsit""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cehgbsa1 OFFLINE  "$nsqt16" "$nsqsit"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEIGBS26] Consolidation Offre (CEIGBS26)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CEIGBS26_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsu_sit""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs26 OFFLINE  "$nsu_sit"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+  
+[CEIGBS15] Intégration de l'Offre (CEIGBS15)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs15 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+    
+[CEIGBS21] Consolidation RI (CEIGBS21)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs21 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+  
+[CEIGBS11] Intégration des données Article (CEIGBS11)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs11 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+
+[CEIGBS04] Réception des Infos Taxes (CEIGBS04)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs04 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+
+[CEIGBS14] Mise à jour des Unités d'Encaissement (CEIGBS14)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs14 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEIGBS10] Réception des données Caractéristiques de Classe (CEIGBS10)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CEIGBS10_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsq_t16""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs10 OFFLINE  "$nsq_t16"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEIGBS28] Consolidation Classes (CEIGBS28)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs28 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEIGBS25] Consolidation Appro (CEIGBS25)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs25 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+    
+[CEIGBS24] Consolidation Négo (CEIGBS24)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs24 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN    
+  
+[CEIGBS06] Réception et Actualisation Automatique du Catalogue RI (CEIGBS06)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CEIGBS06_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsu_sit""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsq_t16""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs06 OFFLINE  "$nsu_sit" "$nsq_t16"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEIGBS22] Mise à jour du Lien RI/Offre (CEIGBS22)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs22 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CELGBS01] Récupération des Prix de Référence (CELGBS01)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/celgbs01 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CELGBS03] Génération Automatique de Propositions sur les Prix de Référence (CELGBS03)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CELGBS03_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsqt16""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsusit""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "codlan""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/celgbs03 OFFLINE  "$nsqt16" "$nsusit" "$codlan"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEHGBSA2] Intégration des Rattachements Fournisseur (CEHGBSA2)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cehgbsa2 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+
+[CEIGBS60] Réception des données Article Déclinable (CEIGBS60)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs60 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEIGBS03] Mise à jour de l'ENC pour Habilitations (CEIGBS03)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CEIGBS03_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsq_t16""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs03 OFFLINE  "$nsq_t16"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN            
+  
+[CELGBS05] Génération des Propositions sur les Prix de Vente dans l'Offre (CELGBS05)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CELGBS05_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsqt16""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsusit""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "codlan""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/celgbs05 OFFLINE  "$nsqt16" "$nsusit" "$codlan"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEMGBS01] Réception des Informations du Module Gestion de l'Offre (CEMGBS01)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CEMGBS01_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsq_t16""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "nsu_sit""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cemgbs01 OFFLINE  "$nsq_t16" "$nsu_sit"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CEIGBS23] Activation des Offres et Mise à jour du Statut de la RI (CEIGBS23)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs23 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN      
+  
+[CEBGBSG1] Intégration de la Filière d'Appro (CEBGBSG1)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Creer fichier $CCAT_BatchTmp/CEBGBSG1_par.lst des parametres du batch 
+  A echo "" > $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type INTEGER : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "SiteAdmin""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "- parametre obligatoire de type LONGINT : " >> $CCAT_BatchTmp/${DT228B}_par.lst
+  A echo "Site""= " >> $CCAT_BatchTmp/${DT228B}_par.lst
+3 Modification des parametres de lancement du batch
+  P  $CCAT_BatchTmp ${DT228B}_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cebgbsg1 OFFLINE  "$SiteAdmin" "$Site"
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+  
+[CEBGBSG7] Activation de la Filière d'Appro (CEBGBSG7)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cebgbsg7 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CESGBS06] Intégration des Remises (CESGBS06)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs06 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CESGBS05] Intégration des Accords (CESGBS05)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs05 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN      
+  
+[CESGBS16] Intégration des Cumuls Groupes Barémiques (CESGBS16)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs16 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CESGBS03] Intégration des Remises Global Commande (CESGBS03)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs03 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN    
+  
+[CESGBS17] Controle des Prix d'Achat (CESGBS17)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs17 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  
+  
+[CESGBS02] Intégration des Gratuits Hors Promo (CESGBS02)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs02 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CESGBS07] Gestion des Promos à l'Achat (CESGBS07)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs07 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN    
+  
+[CESGBS09] Gestion des Prix d'Achat Hors Promo (CESGBS09)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs09 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+  
+[CESGBS10] Gestion des Impacts Prix d'Achat (CESGBS10)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+3 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs10 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN    
+  
+[CESGBS11] Calcul des Eléments Tarifaires et Types de Prix d'Achat (CESGBS11)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/cesgbs11 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN
+    
+[CEIGBS29] Récupération des Engagements (CEIGBS29)
+3 Modif date de prod
+  A echo Nouvelle date de prod ?
+  B read DateProd 
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $DateProd`
+5 Chargement du Jeux de Test
+  A tpdload  1
+3 Lancement du batch
+  D $CCAT_BatchPublish$localisation/ceigbs29 OFFLINE 
+5 Extraction du resultat
+  A tpdxtr   1
+5 Analyse du resultat
+  A bchcomp  1
+1 Return to Main menu
+  M MAIN  

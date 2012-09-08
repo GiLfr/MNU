@@ -1,0 +1,828 @@
+[MAIN] Batchs Applicatifs Module 1 - Menu Principal IA
+9 Initialisation de la base Oracle
+  A export DT128B=caagtf00
+  M BASEINI
+3 Cloture Automatique des Engagements (CDBGTF50)
+  A export DT128B=cdbgtf50
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDBGTF50  
+3 Publication des Prix d'Achat (CAGGTF19)
+  A export DT128B=caggtf19
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CAGGTF19
+3 Mise à jour D05 à partir du Référentiel Publié (CAGGTF50)
+  A export DT128B=caggtf50
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CAGGTF50
+3 Consolidation des Prix pour Collections (CDBGTF20)
+  A export DT128B=cdbgtf20
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDBGTF20
+3 Consolidation des Préconisations (CDEGTF57)
+  A export DT128B=cdegtf57
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF57
+3 Flux des Préconisations (CDEGTF27)
+  A export DT128B=cdegtf27
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF27
+3 Mise à jour des produits de l'offre en magasin (CDFGTF32)
+  A export DT128B=cdfgtf32
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF32
+3 Flux Massif d'Activation d'une Offre Nationale (CDFGTF37)
+  A export DT128B=cdfgtf37
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF37  
+3 Flux Massif de Sélection à l'Envoi des Engagements d'un Cycle (CDFGTF34)
+  A export DT128B=cdfgtf34
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF34  
+3 Flux Massif de Désactivation d'une Offre Nationale (CDFGTF44)
+  A export DT128B=cdfgtf44
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF44  
+3 Flux Massif de Désactivation d'une Offre Locale (CDFGTF43)
+  A export DT128B=cdfgtf43
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF43  
+3 Flux de Sélection (CDFGTF30)
+  A export DT128B=cdfgtf30
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF30
+3 Flux de Désélection (CDFGTF29)
+  A export DT128B=cdfgtf29
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF29     
+3 Génération des engagements à partir des précos (CDFGTF12)
+  A export DT128B=cdfgtf12
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF12
+3 Eclatement automatique des engagements Batch de nuit (CDFGTF17)
+  A export DT128B=cdfgtf17
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF17  
+3 Epuration des tables de Traces pour les Consos (CAAGTF12)
+  A export DT128B=caagtf12
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CAAGTF12  
+3 Génération Deltas pour Conso Engagements (CDEGTF59)
+  A export DT128B=cdegtf59
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF59
+3 Conso Engagements pour Pour Plan Achat (CDEGTF58)
+  A export DT128B=cdegtf58
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF58
+3 Sur-Remises conditionnelles (CDEGTF26)
+  A export DT128B=cdegtf26
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF26
+3 Consolidation des Engagements FCO/Site (CDEGTF23)
+  A export DT128B=cdegtf23
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF23  
+3 Flux d'Engagements (CDEGTF03)
+  A export DT128B=cdegtf03
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF03      
+3 Flux d'Engagements vers Appro (CDFGTF62)
+  A export DT128B=cdfgtf62
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF62
+3 Arret des Objets et Détection des effets cascades (CACGTFA1)
+  A export DT128B=cacgtfa1
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CACGTFA1
+3 Epuration des tables de Traces (CAAGTF16)  
+  A export DT128B=caagtf16
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CAAGTF16
+  
+  
+  
+        
+*******
+
+9 Eclatement automatique des engagements Declenchement par MAJ indicateur (CDFGTF17)
+  A export DT128B=cdfgtf17
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF17B
+9 Eclatement auto des engagements Declenchement On Line (CDFGTF17)
+  A export DT128B=cdfgtf17
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF17C
+9 Creation des Cycles d'Offre Nouveaute (CDBGTF54)
+  A export DT128B=cdbgtf54
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDBGTF54
+9 Mise à jour de la table D03 (CDBFTF20)
+  A export DT128B=cdbftf20
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDBFTF20
+9 Mise à jour de la table D05 (CAGGTF19)
+  A export DT128B=caggtf19
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CAGGTF19
+9 Consolidation des assortiments type (CDDGTF53)
+  A export DT128B=cddgtf53
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDDGTF53
+9 Consolidation BA en Centrale (CDEGTF55)
+  A export DT128B=cdegtf55
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF55
+9 Consolidation BA en Magasin (CDFGTF56)
+  A export DT128B=cdfgtf56
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDFGTF56
+9 Consolidation Préco (CDEGTF57)
+  A export DT128B=cdegtf57
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF57
+9 Consolidation Engagements pour Plan d'Achat (CDEGTF58)
+  A export DT128B=cdegtf58
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CDEGTF58
+9 Purge tables de trace (CAAGTF12)
+  A export DT128B=caagtf12
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CAAGTF12
+9 Migration MAJ % dans D03 (CZZGTF30)
+  A export DT128B=czzgtf30
+  M CZZGTF30
+9 Migration D05 (CZZGTF31)
+  A export DT128B=czzgtf31
+  M CZZGTF31
+9 Initialisation consolidation aty (CZZGTF32)
+  A export DT128B=czzgtf32
+  M CZZGTF32
+9 Initialisation conso plan d'achat(CZZGTF33)
+  A export DT128B=czzgtf33
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst
+  M CZZGTF33
+9 initialisation nsq_t0e ds table SPC (CZZGTF34)
+  A export DT128B=czzgtf34
+  M CZZGTF34
+9 Suppression des alertes (CZZGTF35)
+  A export DT128B=czzgtf35
+  M CZZGTF35
+1 Return to Main menu
+  N main
+
+
+
+[BASEINI] Initialisation de la base Oracle
+4 Chargement du Jeux de Test TV & Nomenclature
+  B tpdload $DT128B 1
+4 Chargement des messages d erreurs (C???mc??_arch.sql)
+  A export NLS_LANG=FRENCH_FRANCE.WE8ISO8859P1
+  A echo Chargement de packages ...
+  A echo "for fic in \`ls $CCAT_BatchPublish/plsql/c???mc??_arch.sql \` " > $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "do " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "echo Chargement des msg d erreurs de \$fic "  >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "$CCAT_BatchPublish/bin/jzz010y2 \$fic S "  >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "done " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A chmod 700 $TMPDIR/loadplsql_$LOGNAME.tmp
+  A $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "UPDATE LIB_ERREUR SET NSQ_T08 = '2900020' WHERE NSQ_T08 = '20' AND CDE_ERR NOT IN ( SELECT CDE_ERR FROM LIB_ERREUR WHERE NSQ_T08 = '2900020' ) ;" > $TMPDIR/upderr_$LOGNAME.tmp
+  A echo "Modification de la valeur code langue LIB_ERREUR [20 to 2900020]..."
+  D $CCAT_BatchPublish/bin/jzz010y2 $TMPDIR/upderr_$LOGNAME.tmp S
+4 Chargement des packages PL/SQL Communs (CAA & Constantes)
+  A $CCAT_BatchPublish/bin/jzz010y2 $CCAT_BatchPublish/plsql/caagmc01_pack.sql S
+  A $CCAT_BatchPublish/bin/jzz010y2 $CCAT_BatchPublish/plsql/caaymc01_pack.sql S
+  A $CCAT_BatchPublish/bin/jzz010y2 $CCAT_BatchPublish/plsql/caagco01_pack.sql S
+  A $CCAT_BatchPublish/bin/jzz010y2 $CCAT_BatchPublish/plsql/caayco01_pack.sql S
+  A echo "for fic in \`ls $CCAT_BatchPublish/plsql/c???co??_pack.sql \` " > $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "do " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "echo Chargement du package \$fic "  >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "$CCAT_BatchPublish/bin/jzz010y2 \$fic S "  >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "done " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A chmod 700 $TMPDIR/loadplsql_$LOGNAME.tmp
+  B $TMPDIR/loadplsql_$LOGNAME.tmp
+3 Chargement du module commun Batch (CAAGBS01)
+  A $CCAT_BatchPublish/bin/jzz010y2 $CCAT_BatchPublish/plsql/caagbs01_common.pas S
+  A $CCAT_BatchPublish/bin/jzz010y2 $CCAT_BatchPublish/plsql/caagbs01_common.pab S
+3 Chargement des packages PL/SQL Batch (C*.pas, puis C*.pab)
+  A echo "for fic in \`ls $CCAT_BatchPublish/plsql/c*.pas \` " > $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "do " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "echo Chargement du package \$fic "  >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "$CCAT_BatchPublish/bin/jzz010y2 \$fic S "  >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "done " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "for fic in \`ls $CCAT_BatchPublish/plsql/c*.pab \` " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "do " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "echo Chargement du package \$fic "  >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "$CCAT_BatchPublish/bin/jzz010y2 \$fic S "  >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A echo "done " >> $TMPDIR/loadplsql_$LOGNAME.tmp
+  A chmod 700 $TMPDIR/loadplsql_$LOGNAME.tmp
+  A $TMPDIR/loadplsql_$LOGNAME.tmp > $TMPDIR/loadplsql_$LOGNAME.log
+2 Chargement des Packages PL/SQL (Globale -NEW-)
+  A export NLS_LANG=FRENCH_FRANCE.WE8ISO8859P1
+  D compile $AUC_DBUSER $AUC_DBPASSWD $ORACLE_SID $CCAT_BatchPublish/plsql $TMPDIR
+3 Visualisation du Chargement des packages PL/SQL Batch (Cxx)
+  A vi $TMPDIR/loadplsql_$LOGNAME.log
+1 Return to Main menu
+  M MAIN
+
+
+[CDBGTF50] Cloture Automatique des Engagements (CDBGTF50)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sdb01050
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CAGGTF19] Publication des Prix d'Achat (CAGGTF19)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sag01019 "$CAG_NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CAGGTF50] Mise à jour D05 à partir du Référentiel Publié (CAGGTF50)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sag01004 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDBGTF20] Consolidation des Prix pour Collections (CDBGTF20)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdb01020 "$CAG_NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CDEGTF57] Consolidation des Préconisations (CDEGTF57)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sde01057 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN  
+  
+[CDEGTF27] Flux des Préconisations (CDEGTF27)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sde01027 "$CDE_TRIG" "$CDE_SUB_DIR" "$CDE_NSQ_T16" "$CDE_NBR_REC" "$CDE_COD_LAN"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN  
+
+[CDFGTF32] Mise à jour des produits de l'offre en magasin (CDFGTF32)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdf01032 "$CDF_NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CDFGTF37] Flux Massif d'Activation d'une Offre Nationale (CDFGTF37)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdf01037 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN  
+  
+[CDFGTF34] Flux Massif de Sélection à l'Envoi des Engagements d'un Cycle (CDFGTF34)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdf01034 "$NSQ_T16" "$Batch_rep" "$Date_Rep" "$AcLocalAppli" "$AcPartnerAppli" 
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDFGTF44] Flux Massif de Désactivation d'une Offre Nationale (CDFGTF44)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdf01044 "$NSQ_T16" "$Batch_rep" "$Date_Rep" "$AcLocalAppli" "$AcPartnerAppli" 
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CDFGTF43] Flux Massif de Désactivation d'une Offre Locale (CDFGTF43)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdf01043 "$NSQ_T16" "$Batch_rep" "$Date_Rep" "$AcLocalAppli" "$AcPartnerAppli" 
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN  
+
+[CDFGTF30] Flux de Sélection (CDFGTF30)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdf01030 "$NSQ_T16" "$Batch_rep" "$Date_Rep" "$AcLocalAppli" "$AcPartnerAppli" 
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDFGTF29] Flux de Désélection (CDFGTF29)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdf01029 "$NSQ_T16" "$Batch_rep" "$Date_Rep" "$AcLocalAppli" "$AcPartnerAppli" 
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CDFGTF12] Génération des engagements à partir des précos (CDFGTF12)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sdf01012 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CDFGTF17] Eclatement automatique des Engagements (CDFGTF17)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdf01017 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN  
+
+[CAAGTF12] Epuration des tables de Traces pour les Consos (CAAGTF12)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/saa01012
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CDEGTF59] Génération Deltas pour Conso Engagements (CDEGTF59)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sde01059 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CDEGTF58] Conso Engagements pour Pour Plan Achat (CDEGTF58)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sde01058 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDEGTF26] Sur-Remises conditionnelles (CDEGTF26)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sde01026 "$CDE_NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN  
+
+[CDEGTF23] Consolidation des Engagements FCO/Site (CDEGTF23)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sde01023 "$CDE_NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN  
+
+[CDEGTF03] Flux d'Engagements (CDEGTF03)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sde01003 "$CDE_TRIG" "$CDE_SUB_DIR" "$CDE_NSQ_T16" "$CDE_NBR_REC" "$CDE_COD_LAN"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDFGTF62] Flux d'Engagements vers Appro (CDFGTF62)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sdf01062 "$Batch_rep" "$Date_Rep" "$AcLocalAppli" "$AcPartnerAppli"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CACGTFA1] Arret des Objets et Détection des effets cascades (CACGTFA1)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sac010a1
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+  
+[CAAGTF16] Epuration des tables de Traces (CAAGTF16)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/saa01016
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN    
+          
+******************************************************************************************
+******************************************************************************************
+
+
+
+[CDFGTF17B] Eclatement auto des engagements Declenchement par Maj indicateur(CDFGTF17)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sdf01017b "$NSQ_T16" "$SIT_NSQ_T16" "$NSQ_SIT" "$OFR_NSQ_T16" "$NSQ_OFR" "$NOR_COF"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDFGTF17C] Eclatement auto des engagements Declenchement On Line(CDFGTF17)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sdf01017c "$NSQ_T16" "$SIT_NSQ_T16" "$NSQ_SIT" "$OFR_NSQ_T16" "$NSQ_OFR"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDBGTF54] Creation des Cycles d'Offre nouveaute (CDBGTF54)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine
+  D $CCAT_BatchPublish/schedule/sdb01054 "$OFR_NSQ_T16" "$NSQ_OFR" "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDBFTF20] Mise à jour de la table D03 (CDBFTF20)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine 
+  D $CCAT_BatchPublish/schedule/sdb01020 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CAGGTF19] Mise a jour de la table D05 Publication des prix d'achat (CAGGTF19)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Mise a jour de la table D05 Publication des prix d'achat  
+  D $CCAT_BatchPublish/schedule/sag01019 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDDGTF53] Consolidation des assortiments type (CDDGTF53)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Consolidation des assortiments type 
+  D $CCAT_BatchPublish/schedule/sdd01053 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+
+
+[CDEGTF55] Consolidation BA en Centrale (CDEGTF55)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Consolidation BA en Centrale 
+  D $CCAT_BatchPublish/schedule/sde01055 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDFGTF56] Consolidation BA en Magasin (CDFGTF56)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Consolidation BA en Magasin 
+  D $CCAT_BatchPublish/schedule/sdf01055 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+
+
+[CDEGTF58] Consolidation Engagements pour Plan d'Achat (CDEGTF58)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Consolidation Engagements 
+  D $CCAT_BatchPublish/schedule/sde01058 "$NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CAAGTF12] Purge tables de trace (CAAGTF12)
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Purge tables de trace 
+  D $CCAT_BatchPublish/bin/jaa01012 OFFLINE
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CDEGTF03] Flux d'Engagements (CDEGTF03)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Flux d'Engagements 
+  D $CCAT_BatchPublish/schedule/sde01003 "$CDE_TRIG" "$CDE_SUB_DIR" "$CDE_NSQ_T16" "$CDE_NBR_REC" "$CDE_COD_LAN"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+
+
+[CDEGTF26] Surremise conditionnelles (CDEGTF26)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Surremise conditionnelles 
+  D $CCAT_BatchPublish/schedule/sde01026 "$CDE_NSQ_T16"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CACGTF01] Arrêt des objets et detections des effets Cascade (CACGTF01)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Arrêt des objets et detections des effets Cascade 
+  D $CCAT_BatchPublish/schedule/sac010a1 
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTF30] Migration MAJ % dans D03 (CZZGTF30)
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Migration MAJ % dans D03 
+  D $CCAT_BatchPublish/bin/jzz010y2  $CCAT_BatchPublish/plsql/czzgbs30.sql S > $TMPDIR/czzgbs30.log
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTF31] Migration D05 (CZZGTF31)
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Migration D05
+  D $CCAT_BatchPublish/bin/jzz010y2  $CCAT_BatchPublish/plsql/czzgbs31.sql S > $TMPDIR/czzgbs31.log
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTF32] Initialisation consolidation aty (CZZGTF32)
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Initialisation consolidation aty 
+  D $CCAT_BatchPublish/bin/jzz010y2  "mig_CZZGBS32.mig_main"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTF33] Initialisation conso plan d'achat(CZZGTF33)
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${DT128B}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Initialisation conso plan d'achat
+  D $CCAT_BatchPublish/bin/jzz010y2  "mig_CZZGBS33.mig_main($NSQ_T16)"
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+
+[CZZGTF34] initialisation nsq_t0e ds table SPC (CZZGTF34)
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine initialisation nsq_t0e ds table SPC 
+  D $CCAT_BatchPublish/bin/jzz010y2  $CCAT_BatchPublish/plsql/czzgbs34.sql S > $TMPDIR/czzgbs34.log
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN
+
+[CZZGTF35] Suppression des alertes (CZZGTF35)
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de la chaine Suppression des alertes 
+  D $CCAT_BatchPublish/bin/jzz010y2  $CCAT_BatchPublish/plsql/czzgbs35.sql S > $TMPDIR/czzgbs35.log
+5 Extraction du resultat
+  A tpdxtr  $DT128B 1
+5 Analyse du resultat
+  A bchcomp $DT128B 1
+1 Return to Main menu
+  M MAIN

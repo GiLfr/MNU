@@ -1,0 +1,191 @@
+[MAIN] Editions SQRibe - Main Menu 
+5 Processus SQRibe
+  M EDTTEC 
+3 Editions 111
+  M EDT111
+5 Editions 112
+  M EDT112
+5 Editions 1.2
+  M EDT12
+5 Editions v2.121
+  M EDTV2121
+1 Exit
+  Q 
+
+[EDT111] Editions 111
+3 Edition_Epuration_RI_(CACXRSEA)
+  A export cpl_title=_Epuration_RI
+  A export REPORT=cacxrsea
+  A export PRVMENU=EDT111
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTRUN
+3 Edition_Epuration_FCO_(CACXRSEB)
+  A export cpl_title=_Epuration_FCO
+  A export REPORT=cacxrseb
+  A export PRVMENU=EDT111
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTRUN
+3 Edition_Intégration_du_Bottin_Fournisseur_(CADXRS01)
+  A export cpl_title=_Intégration_du_Bottin_Fournisseur
+  A export REPORT=cadxrs01
+  A export PRVMENU=EDT111
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTRUN
+3 Edition_Liste_de_Nomenclature_(CAEXRSE8)
+  A export cpl_title=_Liste_de_Nomenclature
+  A export REPORT=caexrse8
+  A export PRVMENU=EDT111
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTRUN
+1 Return to Main menu
+  A export PRVMENU=
+  M MAIN
+
+[EDT112] Editions 112
+3 Edition_Fiche_Balisage_Salle_Collection_(CDBXRSE2)
+  A export cpl_title=_Fiche_Balisage_Salle_Collection
+  A export REPORT=cdbxrse2
+  A export PRVMENU=EDT112
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTRU2
+3 Edition_Engagements_Fournisseurs_par_Région_(CDEXRSE4)
+  A export cpl_title=_Engagements_Fournisseurs_par_Région
+  A export REPORT=cdexrse4
+  A export PRVMENU=EDT112
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTRU2
+3 Edition_Engagements_Fournisseurs_par_Entrepot_(CDEXRSEE)
+  A export cpl_title=_Engagements_Fournisseurs_par_Entrepot
+  A export REPORT=cdexrsee
+  A export PRVMENU=EDT112
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTRU2
+3 Edition_Support_Engagement_Chef_de_rayon_(CDFXRSED)
+  A export cpl_title=_Support_Engagement_Chef_de_rayon
+  A export REPORT=cdfxrsed
+  A export PRVMENU=EDT112
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTRU2
+1 Return to Main menu
+  A export PRVMENU=
+  M MAIN
+
+[EDTTEC] Processus SQRibe
+5 Selection de l edition
+  A export EDITION_NAME=`echo #edition_name `
+5 Run time SQR
+  D sqr $EDITION_NAME.sqr ${AUC_DBUSER}/${AUC_DBPASSWD}@${ORACLE_SID}
+5 Compilation SQRmake
+  D sqrmake -f $EDITION_NAME.sqr -o ${AUC_DBUSER} -p ${AUC_DBPASSWD} -b ${ORACLE_SID}
+5 Lancement edition SQRT
+  A export EDT_LAN="2900020"
+  A export EDT_DEV="3000024"
+  A export EDT_USR="$AUC_DBUSER"
+  A export EDT_SITE="1"
+  D sqrt $EDITION_NAME.sqt ${AUC_DBUSER}/${AUC_DBPASSWD}@${ORACLE_SID} -e -o "$EDT_LAN" "$EDT_DEV" "$EDT_USR" "$EDT_SITE" #param_applicatif -KEEP -PRINTER:HP 
+  A export LPDEST=OptraTest1115F
+  D lp $EDITION_NAME.lis
+1 Return to Main menu
+  M MAIN
+
+[EDTRUN] Edition
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de l edition
+  D $CCAT_BatchPublish/bin/jaa010e0 OFFLINE "$CCAT_BATCH_LAN" "$COD_DEVISE" $REPORT "" $LPDEST 1 1 1 1 -param "$CCAT_BATCH_LAN" "$COD_DEVISE" "$CCAT_BATCH_DB" "$COD_SITE" $OTHER_PARAM
+4 Extraction du resultats
+  A tpdxtr  $DT128B 1
+4 Analyse du resultats
+  A bchcomp $DT128B 1
+4 Comparaison des fichiers en sortie
+  B bchfilecmp $DT128B 1 $HOME/ablytests/${DT128B}_at/technical/c1_efl.lst
+1 Return to previous menu
+  A export cpl_title=
+  M EDT111
+
+[EDTRU2] Edition
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $DT128B 1
+3 Lancement de l edition
+  D $CCAT_BatchPublish/bin/jaa010e0 OFFLINE "$CCAT_BATCH_LAN" "$COD_DEVISE" $REPORT "" $LPDEST 1 1 1 1 -param "$CCAT_BATCH_LAN" "$COD_DEVISE" "$CCAT_BATCH_DB" "$COD_SITE" $OTHER_PARAM
+4 Extraction du resultats
+  A tpdxtr  $DT128B 1
+4 Analyse du resultats
+  A bchcomp $DT128B 1
+4 Comparaison des fichiers en sortie
+  B bchfilecmp $DT128B 1 $HOME/ablytests/${DT128B}_at/technical/c1_efl.lst
+1 Return to previous menu
+  A export cpl_title=
+  M EDT112
+
+[EDT12] Editions 1.2
+3 Edition_Fiche_Balisage_Salle_Collection_(CDBXRSE2)
+  A export cpl_title=_Fiche_Balisage_Salle_Collection
+  A export REPORT=cdbxrse2
+  A export PRVMENU=EDT12
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTR12
+3 Edition_Engagements_Fournisseurs_par_Région_(CDEXRSE4)
+  A export cpl_title=_Engagements_Fournisseurs_par_Région
+  A export REPORT=cdexrse4
+  A export PRVMENU=EDT12
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTR12
+3 Edition_Engagements_Fournisseurs_par_Entrepot_(CDEXRSEE)
+  A export cpl_title=_Engagements_Fournisseurs_par_Entrepot
+  A export REPORT=cdexrsee
+  A export PRVMENU=EDT12
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTR12
+3 Edition_Support_Engagement_Chef_de_rayon_(CDFXRSED)
+  A export cpl_title=_Support_Engagement_Chef_de_rayon
+  A export REPORT=cdfxrsed
+  A export PRVMENU=EDT12
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTR12
+1 Return to Main menu
+  A export PRVMENU=
+  M MAIN
+
+[EDTR12] Edition
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Chargement du Jeux de Test
+  A tpdload $REPORT 1
+3 Lancement de l edition (génération du .SPF)
+  D $CCAT_BatchPublish/bin/jaa010e0 OFFLINE "$CCAT_BATCH_LAN" "$COD_DEVISE" $REPORT "" $LPDEST 1 1 1 1 -param "$CCAT_BATCH_LAN" "$COD_DEVISE" "$CCAT_BATCH_DB" "$COD_SITE" $OTHER_PARAM
+4 Impression de l'édition
+  B en construction...
+4 Impression de l'édition attendu
+  B en construction...
+1 Return to previous menu
+  A export cpl_title=
+  M EDT12
+
+
+[EDTV2121] Edition v2.121
+3 Edition tarifaire
+  A export cpl_title=_Edition_tarifaire
+  A export REPORT=cagxrs01
+  A export PRVMENU=EDTV2121
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst
+  M EDTTAR
+1 Return to previous menu
+  A export cpl_title=
+  M MAIN
+
+[EDTTAR] Edition tarifaire
+3 Modification des parametres d'env.
+  P $HOME/${CCAT_NIV_TST}/${REPORT}_${CCAT_COD_TST}/technical c1_par.lst 1
+3 Lancement de la chaine de création du fichier .lis
+  A read NSU_CST_W16?"Valeur de NSU_CST_W16 dans les tables W56, W57 et W58  : "
+  A export NSU_CST_W16
+  D sqrt $REPORT.sqt "$SCH_REF" "$PAR1" "$PAR2" "$COD_LAN" "$NSQ_T01" "$ID_USR" "$SIT_ADMIN" "$NSU_CST_W16" "$PAR3" -PRINTER:HP
+3 Lancement de l'impression du fichier .lis
+  D lpr "$PAR5" "$COD_IMP" "$NOM_FIC"
+1 Return to Main menu
+  M MAIN

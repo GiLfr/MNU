@@ -1,0 +1,390 @@
+#!/bin/bash
+###############################################################################
+#
+#       Program ID      : menu
+#       Language        : Shell Script
+#       Platform        : AIX & Linux
+#       Author          : Gilles Lanteri
+#       Date            : 17/09/98
+#
+#       Description     : Menu generic
+#
+#       Call Pattern    : <program>
+#
+#       Change History  :
+#
+#       No      Date            Author          Description
+#       --      ----            ------          -----------
+#       1     28/1/99            GIL            Add  param. (P)
+#       2     22/4/99            GIL            Ctrl param. (V)
+#       3     05/5/99            GIL            MnuPar (file)
+#       4     12/2/2011          GiL            Version Linux 
+#
+#
+################################################################################
+
+# valid the presence of Unix parameters in the user environment
+validenvpar()
+{
+
+# set -x
+
+# Set default values
+SEP="|"
+
+# Alerte flag
+iAlerte=0
+
+# Message
+echo ${MNU_VAR_TYP} Unix Parameters Validation ...
+
+# Control that environment parameters of the specified type are different to null
+for envpar in $(/bin/grep ^${MNU_VAR_TYP} $MNUVAR) 
+do
+
+     envparnam="$"$(echo $envpar | /bin/cut -d${SEP} -f2)
+
+     echo "     - ${envparnam} control ..."
+     if [ "`eval echo ${envparnam}`" = "" ]; then
+         echo "Warning : Unix parameter ${envparnam} not defined (${MNU_VAR_TYP}) !"
+	 iAlerte=1
+     fi
+done 
+
+if [ ${iAlerte} -eq 1 ];then
+    read a
+fi
+
+}
+    
+################################################################################
+
+# set file parameter in user menu context
+param()
+{ 
+
+# set -x
+
+# Le fichier de parametre n est pas null (null identique que le fichier ne doit pas etre traite)
+if [ "$MNU_PARAM_FILE" = "null" ]; then
+     echo "   Pas de fichier de parametre (null)."
+     return 1
+fi
+
+# Set default values
+SEP="="
+
+# Parameters file vi edition ask
+if [ "$MNU_PARAM_VISU" -eq "1" ]; then
+     vi $MNU_PARAM_DIR/$MNU_PARAM_FILE
+fi
+
+iCpt=0
+
+# Set parameters
+for par in $(/bin/grep -v ^- $MNU_PARAM_DIR/$MNU_PARAM_FILE | /bin/awk -F $SEP '{print $0}')
+do
+     iCpt=`expr $iCpt + 1`
+
+     parnam=$(echo $par | /bin/cut -d${SEP} -f1)
+     parval=$(echo $par | /bin/cut -d${SEP} -f2)
+
+     echo "   Init. Parameter $parnam to $parval value."
+
+     if [ iCpt -le MNUPARAMNBMAX ]; then
+         eval export MNU_PARAM${iCpt}=${parnam}
+     fi
+     eval export ${parnam}=${parval}
+done 
+
+if [ ! -f $MNU_PARAM_DIR/$MNU_PARAM_FILE ];then
+    read a
+fi
+
+}
+    
+################################################################################
+
+# display the menu from the $MNUCONFIG file under the [$MNUMAIN] header
+# for a user with security level $MNUSECUR.  $numopts is set to the number
+# of options available to this user
+display_menu()
+{
+    # set -x
+    clear
+    /bin/awk -f $MNUTITLE -v menu=[$MNUMAIN] build=$build sec=$MNUSECUR selopt=$selopt cpl_title=$cpl_title $MNUCONFIG
+    /bin/awk -f $MNUPARAM -v nb=$MNUPARAMNB
+    numopts=`/bin/awk -f $MNUOPT -v menu=[$MNUMAIN] sec=$MNUSECUR $MNUCONFIG`
+    echo 
+}
+    
+################################################################################
+
+# read in an option from the user.  It must lie between 1 and $numopts
+read_option()
+{
+   # set -x
+   opt=0
+    while [ "$opt" -lt 1 ] || [ "$opt" -gt $numopts ]
+    do
+        display_menu
+        read -p "Please enter required option : " opt
+        export selopt=$opt
+    done
+}
+
+################################################################################
+
+# perform the required processing for option number $opt
+do_option()
+{
+    # set -x
+    # store the values for $MNUMAIN and $MNUCONFIG so they can be
+    # changed by a command if required
+    orig=$MNUMAIN
+    orig_menu=$MNUCONFIG
+
+    # num is used to retrieve the commands one at a time
+    num=1
+
+    # retrieve the first line from the menu config file
+    command=`/bin/awk -f $MNUCOM -v menu=[$orig] opt=$opt num=$num sec=$MNUSECUR $orig_menu`
+
+    # repeat the processing until no command line is retrieved
+    while [ "$command" != "" ]
+    do
+
+        # extract the type of command to be processed
+        type=`echo $command | /bin/awk '{print $1}'` 
+        other=`echo $command | /bin/awk '{for (i=2;i<=NF;i++) printf("%s ",$i)}'` 
+        
+        case $type 
+        in 
+            # Q tells the menu system to exit
+            Q)  clear
+                echo The End
+                exit
+                exit ;;
+
+            # F permits to transfer data to a file (use "pipe" charaters)
+            F)  eval echo  $other
+                ;;
+
+            # P permits to use a file parameters
+            P)  MNU_PARAM_FILE=`eval echo $command | /bin/awk '{print $3}'`
+                MNU_PARAM_DIR=`eval eval echo $command | /bin/awk '{print $2}'`
+                MNU_PARAM_VISU=`echo $command | /bin/awk '{print $4}'`
+                param
+                ;;
+
+            # V permits to validate environment parameters
+            V)  MNU_VAR_TYP=`eval echo $command | /bin/awk '{print $2}'`
+                validenvpar
+                ;;
+
+            # U sets a new menu for a validated user
+            U)  if [ `whoami` = `echo $command | /bin/awk '{print $3}'` ]
+                then
+                    MNUMAIN=`echo $command | /bin/awk '{print $2}'` 
+                else
+                    echo " "
+                    echo "                            --- UNAUTHORIZED USER ---"
+                    echo " "
+                    echo "                   Only user `echo $command | awk '{print $3}'` authorized to access this menu ..."
+                    echo " "
+                    echo "Press <RETURN> to continue..."
+                    read a
+                fi ;;
+
+            # M sets a new menu, so set $MNUMAIN appropriately
+            M)  MNUMAIN=`echo $command | /bin/awk '{print $2}'` 
+                MNUPARAMNB=`echo $command | /bin/awk '{print $3}'`
+                if [ "$MNUPARAMNB" -eq "" ]; then
+	             MNUPARAMNB=0
+	        fi
+		;;
+		
+            # N sets a new menu config file, so run the specified process to 
+            # create the required file and set MNUCONFIG as required.  Note
+            # that the command must take the new file name as a parameter so
+            # it can delete it
+            N)  MNUCONFIG=$MNUMENU/`echo $command | /bin/awk '{print $2}'`.mnu
+                MNUMAIN=`echo $command | /bin/awk '{print $3}'`
+                MNUPARAMNB=`echo $command | /bin/awk '{print $4}'`
+
+                # if [ $MNUPARAMNB -lt 0 ] || [ $MNUPARAMNB -gt $MNUPARAMNBMAX ]; then
+                if [ "$MNUPARAMNB" -eq "" ]; then
+	                MNUPARAMNB=0
+	        fi
+
+                if [ -f "$MNUCONFIG" ]
+                then
+                    echo Chargement du menu ...
+                else
+                    echo File menu $MNUCONFIG not exist ...
+                    read a
+                    MNUCONFIG=$MNUMENU/main.mnu
+                fi
+                if [ "$MNUMAIN" = "" ]
+                then
+                    MNUMAIN=MAIN
+                fi
+                ;;
+                
+            # A,B,C,D,E executes a command, prompting the user for input where
+            # required.  The difference between the options is whether the 
+            # user is prompted before and/or after execution
+            A|B|C|D|E)  
+                final=""
+                for i in $other
+                do
+                    first=`echo $i | /bin/cut -c1`
+                    rest=`echo $i | /bin/cut -c2-`
+
+                    # # as a first character prompts the user to enter the 
+                    # value.  The rest of the command is used as a 
+                    # description
+                    if [ "$first" = "#" ]
+                    then
+                        echo "Enter the required $rest : "
+                        read value
+                        final="$final $value"
+                        eval export $rest=$value
+
+                    # ? as a first character prompts the user for a Y/N
+                    # response.  The rest of the command contains a 
+                    # description, a YES value and a NO value
+                    elif [ "$first" = "?" ]
+                    then
+                        echo "Is `echo $rest | \
+                            /bin/cut -f1 -d'['` required? [Y/N] : "
+                        read value
+                        if [ $value = "Y" ] || [ $value = "y" ]
+                        then
+                            final="$final `echo $i | \
+                                /bin/cut -f2 -d '[' | /bin/cut -f1 -d '|'`"
+                        else
+                            final="$final `echo $i | \
+                                /bin/cut -f2 -d '|' | /bin/cut -f1 -d ']'`"
+                        fi
+
+                    # $ as a first character uses an environment variable
+                    elif [ "$first" = "$" ]
+                    then
+                        final="$final `eval echo $i`"
+
+                    # otherwise the word is added to the command
+                    else 
+                        final="$final $i"
+                    fi 
+                done
+
+                # type E prompt the user an information message 
+                # to validate the process 
+                if [ $type = "E" ]
+                then
+                    eval echo  $final ?
+                    echo "[Y/N] "
+                    read answ
+                    if [ "$answ" = "Y" ] || [ $answ = "y" ]
+                    then
+			echo "Process run ..."
+                    else
+                        break
+                    fi
+		fi
+		
+                # types C and D prompt the user to ensure the command 
+                # should be run
+                if [ $type = "C" ] || [ $type = "D" ]
+                then
+                    echo "Command line:"
+                    echo "$final" 
+                    echo "Execute line "
+                    eval echo  $final 
+                    echo "will be run. OK? [Y/N] "
+                    read answ
+                    if [ "$answ" = "Y" ] || [ $answ = "y" ]
+                    then
+                        time eval $final 
+                    else
+                        break
+                    fi
+                elif [ $type = "B" ]
+                    then
+                       time eval $final 
+                    else
+                       eval $final 
+                fi
+
+                # types B and D prompt the user to press any key 
+                # to continue 
+                if [ $type = "B" ] || [ $type = "D" ]
+                then
+                    echo "Press <RETURN> to continue..."
+                    read a
+                fi;;
+        esac
+        let num=$num+1
+        command=`/bin/awk -f $MNUCOM -v menu=[$orig] opt=$opt num=$num sec=$MNUSECUR $orig_menu`
+    done
+}
+
+################################################################################
+# main
+################################################################################
+
+# set -x
+
+stty erase ^?
+# export CCM_TOOLS=$AUC_ARCHUNIX/dev/cmtools/scripts
+
+###
+MNUBIN=/usr/local/bin
+MNUMNU=${MNUBIN}/mnu
+MNUMENU=/home/mnu
+###
+
+# export build=`sec_cm_ref_data -m read -t build`
+
+MNUTITLE=$MNUMNU/Title.awk
+MNUPARAM=$MNUMNU/Param.awk
+MNUOPT=$MNUMNU/Opt.awk
+MNUCOM=$MNUMNU/Command.awk
+MNUSEC=$MNUMNU/Security
+
+MNUVAR=$MNUMENU/Mnuvar
+
+if [ "$1" != "" ]; then
+    MNUCONFIG=${MNUMENU}/$1.mnu
+fi
+
+if [ "$MNUCONFIG" = "" ]; then
+    MNUCONFIG=$MNUMENU/main.mnu
+fi
+if [ "$2" != "" ]; then
+        MNUMAIN=$2
+fi
+if [ "$MNUMAIN" = "" ]; then
+        MNUMAIN=MAIN
+fi
+
+export MNUPARAMNB=0
+export MNU_PARAM1=
+export MNU_PARAM2=
+export MNU_PARAM3=
+export MNU_PARAM4=
+export MNU_PARAM5=
+MNUPARAMNBMAX=5
+
+MNUSECUR=`/bin/grep "$LOGNAME," $MNUSEC | /bin/awk -F , '{print $2}'`
+
+if [ "$MNUSECUR" = "" ] ; then
+        MNUSECUR=1
+fi
+
+while [ 1 ]
+do
+    read_option
+    do_option
+done
