@@ -1,0 +1,120 @@
+[MAIN] GiL Tools - Main Menu 
+1 Generale information
+  M USRINF
+1 Gestion de l environnement
+  M ENV
+2 Batch Project
+  M PROJECT
+1 Exit
+  Q 
+
+[USRINF] User information
+1 Me
+  B whoami
+1 Changed password
+  C echo A faire ...
+1 Return to Main menu
+  M MAIN
+
+[ENV] Gestion de l environnement
+9 Creation du schema Oracle (sans trigger)
+  B create_dev_user #Version #Lot
+1 Creation du schema Oracle (avec trigger)
+  B create_dev_user #Version #Lot
+1 Mise à jour du schema Oracle (avec trigger)
+  B alter_dev_user #Nouvelle_Version #Lot
+8 Importation Oracle des tables externes a la gestion des erreurs
+  B imp $AUC_DBUSER/$AUC_DBPASSWD@build3 file=/home/f905x061/sev ignore=y touser=$AUC_DBUSER fromuser=f905x143
+1 Validation des variables d environnement utilisees en Batch
+  V ARCHTECH
+  V BATCH
+  V ORACLE
+  V TEST
+1 Return to Main menu
+  M MAIN
+
+[PROJECT] Batch Project
+1 Serveur de codes
+  N caf
+3 Batch Applicatif 111 (3.2g)
+  N cxx111
+3 Batch Applicatif 112 (3.2g)
+  N cxx112
+9 Maintenance Batch Applicatif 111 (3.2h)
+  A export CCAT_BatchPublish=/home/catalog/int/batch_1.0a
+  N cxx111m
+9 Batch Applicatif 1.2 (3.2h)
+  A export CCAT_BatchPublish=/home/catalog/int/batch_1.2
+  N cxx12
+3 Batch Applicatif 1.2 (3.2h)
+  N cxx12
+3 Batch Applicatif 1.22
+  N cxx122
+3 Batch Applicatif 1.4
+  N cxx14
+3 Batch applicatif V2.11 Parametre / Nomenclature
+  N caq
+3 Batch Applicatif V2.121
+  N cxx212
+3 Batch Applicatif V2.122
+  N cxx2122
+3 REF PUB 1.4 ( alimentation du referentiel publie )
+  A export CCAT_BatchPublish=$HOME/refpub/batch
+  A /home/batch/utils/init_refpub_var
+  N cpu14
+3 REF PUB 2.121 ( alimentation du referentiel publie )
+  A export CCAT_BatchPublish=$HOME/refpub/batch
+  A /home/batch/utils/init_refpub_var
+  N cpu212
+9 Edition SQRibe
+  N edt
+2 Reprise des données (Version Production)
+  N mig
+3 ISS (CZX v2.121)
+  N czx
+9 Alimentation de l Existant (V3.1b)
+  N czy31b
+9 Alimentation de l Existant
+  N czy
+1 Return to Main menu
+  M MAIN
+
+
+[TXTREL] Generation des relations Continuus
+9 Generation des relations Continuus (WinWord document relations)
+  A GIL_CCMBASE=`print #Base_Continuus `
+  A GIL_CCMPROJ=`print #Projet_Continuus `
+  A GIL_CCMVERS=`print #Projet_Version_Continuus `
+  M TXTREL
+9 Copy WinWord files to generate text file (.DOC to winword/ )
+  B doctxt.sh $GIL_CCMPROJ $GIL_CCMVERS > $HOME/tmp/txtrel/doctxt.out 
+9 MANUAL PROCESS - Generate text file... (Convert8.wiz)
+9 Copy text file to correct path
+  B $HOME/tmp/txtrel/winword/winword.sh
+9 Generate relation to batch file
+  B txtrel.sh $GIL_CCMPROJ $GIL_CCMVERS s: $GIL_CCMBASE > $HOME/tmp/txtrel/txtrel.out
+9 View error generation
+  A dtpad $HOME/tmp/txtrel/$GIL_CCMPROJ.err
+9 View relation to create
+  A dtpad $HOME/tmp/txtrel/$GIL_CCMPROJ.ccm
+1 Return to Main menu
+  M MAIN
+
+[TEAMLEADER] Titre :
+9 Report - SQRmake
+  A MNU_RPTCOD=`print #Report_Code_without_extension`
+  B sqrmake -f $MNU_RPTCOD.sqr -o $AUC_DBUSER -p $AUC_DBPASSWD -b $CCAT_REPORT_DB
+7 Continuus for reconfiguration
+  A runccm
+7 Publication Batch
+  A pubatch
+9 Transfert ASY
+  A MNU_USERCOD=`print #User_Code_without_f905`
+  A MNU_DT128BPRJ=`print #DT128B_Code_Projet`
+  A MNU_DT128BCOD=`print #DT128B_Last_Code`
+  A trsasy $MNU_USERCOD $MNU_DT128BCOD
+7 Livraison en Emergency Fixing Batch d un SIR
+  B /architecture/dev/tools/scripts/mnu/bchef #Numero_du_SIR_sans_prefix_SIR
+1 Return to Main menu
+  A export cpl_title=
+  M MAIN

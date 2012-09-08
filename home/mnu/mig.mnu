@@ -1,0 +1,899 @@
+[MAIN] Reprise des donnees - Menu Principal
+2 Gestion de l environnement de l utilisateur courant
+  M USRENV 5
+5 Gestion des parametres d environnements lies aux arborescences de test
+  M TST 2
+2 Preparation de l environnement de migration
+  P ${HOME} mig_tst.par
+  P ${HOME} mig.par
+  M PREMIG
+8 Processus de preparation
+  P ${HOME} mig_tst.par
+  P ${HOME} mig.par
+  M PROPRE
+2 Gestion de la migration
+  P ${HOME} mig_tst.par
+  P ${HOME} mig.par
+  M MIGMNU
+2 Processus complementaires
+  P ${HOME} mig_tst.par
+  P ${HOME} mig.par
+  M PROCPL
+8 Gestion du Serveur de Codes
+  P ${HOME} mig_tst.par
+  P ${HOME} mig.par
+  M SERVC
+2 Migration 111 -> 112
+  P ${HOME} mig_tst.par
+  P ${HOME} mig.par
+  M MIG112
+1 Exit
+  Q Exit 
+
+[PROPRE] Processus de preparation
+8 Gestion du rattachement des articles à la nomenclature de marche (CZZGTFZ3)
+  A export TST_SCHEDULE=czzgtfz3
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTFZ3 4
+2 Return to Main menu
+  M MAIN
+
+[PROCPL] Processus complementaires
+2 Chargement du Serveur de Codes (CZZGTF00)
+  A export TST_SCHEDULE=czzgtf00
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTF00 4
+2 Initialisation de la stucture tarifaire Bazar (CZZGTFZ6)
+  A export TST_SCHEDULE=czzgtfz6
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTFZ6 4
+2 Generation des fournisseurs internes
+  M GENFCOINT 4
+2 Re-branchement des triggers
+  B ${CCAT_BatchPublish}/bin/jzz010y6 ${AUC_DBUSER} enable
+2 Gestion de la generation des filieres amonts (CZZGTFZ2)
+  A export TST_SCHEDULE=czzgtfz2
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTFZ2 4
+8 Mise a jour de D02_POS_POF (special: sqlplus cmd)
+  F "Creation du fichier de commande ${HOME}/special.sql ..."
+  F "ALTER TRIGGER D02_1 ENABLE" > ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "ALTER TRIGGER D02_2 ENABLE" >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "ALTER TRIGGER D02_3 ENABLE" >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "ALTER TRIGGER TRG_SGA_TSU DISABLE" >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "ALTER TRIGGER TRG_SGA_TMJ DISABLE " >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "UPDATE SGA_STR_GAM SET DMJ_TEC = DMJ_TEC WHERE NOR_ATY = 1 " >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "Le resultat de l execution dans le fichier sera disponible dans le fichier ${HOME}/special.log ..."
+  F "Execution du fichier ${HOME}/special.sql ..."
+  A ${CCAT_BatchPublish}/bin/jzz010y2 ${HOME}/special.sql S > ${HOME}/special.log
+2 Publication des Prix de Vente (D04_PRX_VTE)
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $CXX_DATE`
+  D $CCAT_BatchPublish/bin/jag01018 OFFLINE	
+2 Publication des Prix d Achat (D05_PRX_ACH)
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $CXX_DATE`
+  D $CCAT_BatchPublish/bin/jag01019 OFFLINE	
+2 Consolidation des Prix pour Collection (D03_TAR_COL)
+  A export UNISON_SCHED_EPOCH=`BchBuildDate $CXX_DATE`
+  D $CCAT_BatchPublish/bin/jdb01020 OFFLINE	
+1 Return to Main menu
+  M MAIN
+
+[GENFCOINT] Generation des fournisseur 
+2 Generation du fichier de commandes SQL
+  D ${CCAT_BatchPublish}/bin/Generation_Lien_Fco_Sit.sh ${CZZ_INPUT_FILE_REP}/Generation_Lien_Fco_Sit.dat ${HOME}/Generation_Lien_Fco_Sit.sql
+2 Execution du fichier de commandes SQL
+  D $CCAT_BatchPublish/bin/jzz010y2 ${HOME}/Generation_Lien_Fco_Sit.sql S
+1 Return to previous menu
+  M PROCPL
+
+[PREMIG] Preparation de l environnement de migration
+8 Recuperation FTP des fichiers Interfaces
+  B echo "Attente des specifications ..."
+2 Preparation des fichiers de chargement (supp. des espaces non signif.)
+  E Traitement des fichiers du repertoire ${CZZ_INPUT_FILE_REP}
+  B ${CCAT_BatchPublish}/bin/jzz010y5
+2 Debranchement des triggers
+  B ${CCAT_BatchPublish}/bin/jzz010y6 ${AUC_DBUSER} disable
+5 Initialisation de la base Oracle
+  A export TST_SCHEDULE=czzgtfy0
+  M BASEINI
+2 Creation du schema de migration
+  M MIGINI
+1 Return to Main menu
+  M MAIN
+
+[MIG112] Migration 111 -> 112
+2 Alimentation de la table SEG_STS_ENG
+  D ${CCAT_BatchPublish}/bin/jdf01051 OFFLINE 
+2 Verouillage des Engagements pour les offre non concernees par la 112
+  D ${CCAT_BatchPublish}/bin/jzz010y2 "mig_czzgbsz7.verouiller_eng(${CZZ_DAT_SYS})"
+2 Verification des conditions de demarrage des batchs 112
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz7.verif_ofr_pour_gen_eng($CZZ_DAT_SYS,$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR)"
+  B $CCAT_BatchPublish/bin/jzz010y7 ART
+  B $CCAT_BatchPublish/bin/jzz010y7 OFR
+2 Filtrage des Offres necessaires au batch de Diffusion des Produits de l'Offre Magasin
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz7.Filtrer_ofr_pour_dif_pom($CZZ_DAT_SYS)"
+2 Declenchement du batch de Diffusion des Produits de l'Offre Magasin
+  D $CCAT_BatchPublish/schedule/sdf01032 ${CZZ_NSQ_T16_USR}
+2 Declenchement du batch de Generation des Engagements
+  D $CCAT_BatchPublish/schedule/sdf01012 ${CZZ_NSQ_T16_USR}
+2 Declenchement du batch de Mise a jour du Plan d'Achat
+  D $CCAT_BatchPublish/schedule/sdf01033 ${CZZ_NSQ_T16_USR}
+2 Declenchement du batch de Consolidation des Engagements
+  D $CCAT_BatchPublish/schedule/sde01023 ${CZZ_NSQ_T16_USR}
+1 Return to Main menu
+  M MAIN
+
+[MIGMNU] Gestion de la migration
+2 Alimentation de l'objet de gestion Fournisseur Comptable (CADGTF01)
+  A export TST_SCHEDULE=cadgtf01
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CADGTF01 5
+2 Alimentation de l'objet de gestion Fournisseur Commerce (CZZGTFC0)
+  A export TST_SCHEDULE=czzgtfc0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Fournisseur_Commerce
+  A export FLUX=FCO
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=c
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsc1.ctl ${CZZ_INPUT_FILE_REP}/fco01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsc3.ctl ${CZZ_INPUT_FILE_REP}/fco03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsc4.ctl ${CZZ_INPUT_FILE_REP}/fco04.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsc5.ctl ${CZZ_INPUT_FILE_REP}/fco05.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsc6.ctl ${CZZ_INPUT_FILE_REP}/fco06.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsc7.ctl ${CZZ_INPUT_FILE_REP}/fco07.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsc8.ctl ${CZZ_INPUT_FILE_REP}/fco08.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsc9.ctl ${CZZ_INPUT_FILE_REP}/fco09.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsca.ctl ${CZZ_INPUT_FILE_REP}/fco10.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbscb.ctl ${CZZ_INPUT_FILE_REP}/fco11.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxx 5
+2 Alimentation de l'objet de gestion Marque (CZZGTFM0)
+  A export TST_SCHEDULE=czzgtfm0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Marque
+  A export FLUX=MRQ
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=m
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsm1.ctl ${CZZ_INPUT_FILE_REP}/mrq01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsm2.ctl ${CZZ_INPUT_FILE_REP}/mrq02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxm 3
+2 Alimentation de l'objet de gestion Article (CZZGTFR0)
+  A export TST_SCHEDULE=czzgtfr0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Article
+  A export FLUX=ART
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=r
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr1.ctl ${CZZ_INPUT_FILE_REP}/art01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr2.ctl ${CZZ_INPUT_FILE_REP}/art02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr3.ctl ${CZZ_INPUT_FILE_REP}/art03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr4.ctl ${CZZ_INPUT_FILE_REP}/art04.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr5.ctl ${CZZ_INPUT_FILE_REP}/art05.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr6.ctl ${CZZ_INPUT_FILE_REP}/art06.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr7.ctl ${CZZ_INPUT_FILE_REP}/art07.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr8.ctl ${CZZ_INPUT_FILE_REP}/art08.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsr9.ctl ${CZZ_INPUT_FILE_REP}/art09.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsra.ctl ${CZZ_INPUT_FILE_REP}/art10.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxi 5
+2 Gestion du rattachement des articles à la nomenclature de marche (CZZGTFZ3)
+  A export TST_SCHEDULE=czzgtfz3
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTFZ3 4
+2 Alimentation de l'objet de gestion Référence Interne (CZZGTFN0)
+  A export TST_SCHEDULE=czzgtfn0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Référence_Interne
+  A export FLUX=RIN
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=n
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn1.ctl ${CZZ_INPUT_FILE_REP}/rin01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn2.ctl ${CZZ_INPUT_FILE_REP}/rin02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn3.ctl ${CZZ_INPUT_FILE_REP}/rin03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn4.ctl ${CZZ_INPUT_FILE_REP}/rin04.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn5.ctl ${CZZ_INPUT_FILE_REP}/rin05.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn6.ctl ${CZZ_INPUT_FILE_REP}/rin06.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn7.ctl ${CZZ_INPUT_FILE_REP}/rin07.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn8.ctl ${CZZ_INPUT_FILE_REP}/rin08.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsn9.ctl ${CZZ_INPUT_FILE_REP}/rin09.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsna.ctl ${CZZ_INPUT_FILE_REP}/rin10.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsnb.ctl ${CZZ_INPUT_FILE_REP}/rin11.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsnc.ctl ${CZZ_INPUT_FILE_REP}/rin12.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsnd.ctl ${CZZ_INPUT_FILE_REP}/rin13.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsne.ctl ${CZZ_INPUT_FILE_REP}/rin14.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsnf.ctl ${CZZ_INPUT_FILE_REP}/rin15.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsng.ctl ${CZZ_INPUT_FILE_REP}/rin16.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxi 5  
+2 Eclatement des offres (CZZGTFZ5)
+  A export TST_SCHEDULE=czzgtfz5
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTFZ5 4
+2 Generation des assortiments type (CZZGTFZ4)
+  A export TST_SCHEDULE=czzgtfz4
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTFZ4 4  
+2 Alimentation de l'objet de gestion Référence Fournisseur (CZZGTFB0)
+  A export TST_SCHEDULE=czzgtfb0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Référence_Fournisseur
+  A export FLUX=RFR
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=b
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsb1.ctl ${CZZ_INPUT_FILE_REP}/rfr01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsb2.ctl ${CZZ_INPUT_FILE_REP}/rfr02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsb3.ctl ${CZZ_INPUT_FILE_REP}/rfr03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsb4.ctl ${CZZ_INPUT_FILE_REP}/rfr04.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsb5.ctl ${CZZ_INPUT_FILE_REP}/rfr05.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsb6.ctl ${CZZ_INPUT_FILE_REP}/rfr06.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsb7.ctl ${CZZ_INPUT_FILE_REP}/rfr07.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsb8.ctl ${CZZ_INPUT_FILE_REP}/rfr08.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxi 5
+2 Alimentation de l'objet de gestion Unité d'encaissement (CZZGTFU0)
+  A export TST_SCHEDULE=czzgtfu0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Unité_d_encaissement
+  A export FLUX=UEN
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=u
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsu1.ctl ${CZZ_INPUT_FILE_REP}/uen01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsu2.ctl ${CZZ_INPUT_FILE_REP}/uen02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsu3.ctl ${CZZ_INPUT_FILE_REP}/uen03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxx 5
+2 Alimentation de l'objet de gestion Produits de l'Offre (CZZGTFP0)
+  A export TST_SCHEDULE=czzgtfp0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Produits_de_l_Offre
+  A export FLUX=POF
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=p
+  A export CZZ_PARAMR_NCL=$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsp1.ctl ${CZZ_INPUT_FILE_REP}/pof01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsp2.ctl ${CZZ_INPUT_FILE_REP}/pof02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxi 5
+2 Mise a jour de D02_POS_POF (special: sqlplus cmd)
+  F "Creation du fichier de commande ${HOME}/special.sql ..."
+  F "ALTER TRIGGER D02_1 ENABLE" > ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "ALTER TRIGGER D02_2 ENABLE" >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "ALTER TRIGGER D02_3 ENABLE" >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "ALTER TRIGGER TRG_SGA_TSU DISABLE" >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "ALTER TRIGGER TRG_SGA_TMJ DISABLE " >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "UPDATE SGA_STR_GAM SET DMJ_TEC = DMJ_TEC WHERE NOR_ATY = 1 " >> ${HOME}/special.sql
+  F "/" >> ${HOME}/special.sql
+  F "Le resultat de l execution dans le fichier sera disponible dans le fichier ${HOME}/special.log ..."
+  F "Execution du fichier ${HOME}/special.sql ..."
+  B ${CCAT_BatchPublish}/bin/jzz010y2 ${HOME}/special.sql S > ${HOME}/special.log
+2 Alimentation de l'objet de gestion Filière d'approvisionnement (CZZGTFI0)
+  A export TST_SCHEDULE=czzgtfi0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Filière_d_approvisionnement
+  A export FLUX=FIL
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=i
+  A export MIG_TBLSPACE_INDEX=\'$MIG_TABLESPACE_INDEX\'
+  A export CZZ_PARAMR_NCL=$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR,$MIG_TBLSPACE_INDEX
+  A export CZZ_PARAMS_NCL=$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsi1.ctl ${CZZ_INPUT_FILE_REP}/fil01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsi2.ctl ${CZZ_INPUT_FILE_REP}/fil02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxi 5
+2 Alimentation de l'objet de gestion Structure Tarifaire (CZZGTFS0)
+  A export TST_SCHEDULE=czzgtfs0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Structure_Tarifaire
+  A export FLUX=STT
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=s
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbss1.ctl ${CZZ_INPUT_FILE_REP}/stt01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbss2.ctl ${CZZ_INPUT_FILE_REP}/stt02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbss3.ctl ${CZZ_INPUT_FILE_REP}/stt03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbss4.ctl ${CZZ_INPUT_FILE_REP}/stt04.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxx 5
+2 Alimentation de l'objet de gestion Accord (CZZGTFA0)
+  A export TST_SCHEDULE=czzgtfa0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Accord
+  A export FLUX=ACC
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=a
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR,$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsa1.ctl ${CZZ_INPUT_FILE_REP}/acc01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsa2.ctl ${CZZ_INPUT_FILE_REP}/acc02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsa3.ctl ${CZZ_INPUT_FILE_REP}/acc03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsa4.ctl ${CZZ_INPUT_FILE_REP}/acc04.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsa5.ctl ${CZZ_INPUT_FILE_REP}/acc05.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsa6.ctl ${CZZ_INPUT_FILE_REP}/acc06.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxa 5
+2 Alimentation de l'objet de gestion Groupe de Produits (CZZGTFG0)
+  A export TST_SCHEDULE=czzgtfg0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Groupe_de_Produits
+  A export FLUX=GRP
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=g
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsg1.ctl ${CZZ_INPUT_FILE_REP}/grp01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsg2.ctl ${CZZ_INPUT_FILE_REP}/grp02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsg3.ctl ${CZZ_INPUT_FILE_REP}/grp03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsg4.ctl ${CZZ_INPUT_FILE_REP}/grp04.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbsg5.ctl ${CZZ_INPUT_FILE_REP}/grp05.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxx 5
+2 Controle inter-flux : Accord et Groupe de Produit(CZZGTFV0)
+  A export TST_SCHEDULE=czzgtfv0
+  P ${TST_TECHNICAL_REP} c2_par.lst
+  M CZZGTFV2 4
+2 Alimentation de l'objet de gestion Conditions Tarifaires (CZZGTFT0)
+  A export TST_SCHEDULE=czzgtft0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  A export cpl_title=_Conditions_Tarifaires
+  A export FLUX=RFT
+  A export LFLUX=`echo $FLUX | awk '{ printf tolower($0) }'`
+  A export PRG_CODE=t
+  A export CZZ_PARAMR_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  A export CZZ_PARAMS_NCL=$CZZ_NSQ_T16,$CZZ_NSQ_VAR
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbst1.ctl ${CZZ_INPUT_FILE_REP}/rft01.csv $TEC_CSV" >  ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbst2.ctl ${CZZ_INPUT_FILE_REP}/rft02.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  F "$CCAT_BatchPublish/bin/jzz010y1 czzgbst3.ctl ${CZZ_INPUT_FILE_REP}/rft03.csv $TEC_CSV" >> ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+  M CZZGTFxi 5
+2 Controle inter-flux : Ref. Int. et Ref. Fourn.(CZZGTFV0)
+  A export TST_SCHEDULE=czzgtfv0
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTFV1 4
+1 Return to Main menu
+  M MAIN
+
+[BASEINI] Initialisation de la base Oracle
+5 Chargement du Jeux de Test TV & Nomenclature (JdT CTG)
+  A tpdload ${TST_SCHEDULE} 1
+1 Return to Previous menu
+  M PREMIG
+
+[MIGINI] Initialisation du schema de migration
+2 Processus d'initialisation du schema de migration
+  A $CCAT_BatchPublish/bin/jzz010y3 ${AUC_DBUSER} all ${MIG_TABLESPACE} > /${TMPDIR}/${LOGNAME}_czz_migini.log
+2 Visualisation du log d'initialisation du schema de migration
+  A vi /tmp/${LOGNAME}_czz_migini.log
+2 Suppression des index par defaut
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mIg_drop_ind_avt_enr"
+1 Return to Previous menu
+  M PREMIG
+
+[CADGTF01] Alimentation de l'objet de gestion Fournisseur Comptable (CADGTF01)
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Lancement de la chaine Integration Bottin Fournisseur
+  B ${CCAT_BatchSchedule}/sad01001 $CAD_NSQ_T16 $CAD_FILE_DAT
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+1 Return to Mig menu
+  M MIGMNU
+
+[CZZGTFV1] Controle inter-flux : Ref. Fourn. et Unité d'encaissement(CZZGTFV0)
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Processus de Controle des donnees en base de production
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsv0.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16 ,$CZZ_NSQ_VAR, 'RFR', 1)"
+2 Processus de Controle des donnees en base de production (special COS)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsv0.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16 ,$CZZ_NSQ_VAR, 'RFR')"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+1 Return to Mig menu
+  M MIGMNU
+
+[CZZGTFV2] Controle inter-flux : Groupe de Produit et Conditions Tarifaires(CZZGTFV0)
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} c2_par.lst 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 2
+2 Processus de Controle des donnees en base de production
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsv0.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR,'GRP',1)"
+2 Processus de Controle des donnees en base de production (special FMT)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsv0.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR,'GRP')"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 2
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 2
+1 Return to Mig menu
+  M MIGMNU
+
+[SERVC] Gestion du Serveur de Codes
+8 Chargement des Packages PL/SQL
+  A export NLS_LANG=FRENCH_FRANCE.WE8ISO8859P1
+  D compile -u $AUC_DBUSER -p $AUC_DBPASSWD -i $ORACLE_SID -d $CCAT_BatchPublish/plsql -a X
+2 Chargement du Serveur de Codes (CZZGTF00)
+  A export TST_SCHEDULE=czzgtf00
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM}
+  M CZZGTF00 4
+1 Return to Main menu
+  M PROCPL
+
+[CZZGTF00] Chargement du Serveur de Codes (CZZGTF00)
+8 Chargement des Packages PL/SQL
+  A export NLS_LANG=FRENCH_FRANCE.WE8ISO8859P1
+  D compile $AUC_DBUSER $AUC_DBPASSWD $ORACLE_SID $CCAT_BatchPublish/plsql $CCAT_BatchPublish/log
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Debranchement des contraintes d integrite
+  D $CCAT_BatchPublish/bin/jzz010y2 "CZZGBS00.disable_constraints"
+2 Chargement du fichier des codes RIN
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbs00.ctl ${CZZ_INPUT_FILE_REP}/${CZZ_RIN_FILE} $TEC_CSV
+2 Generation des codes RIN
+  D $CCAT_BatchPublish/bin/jzz010y2 "CZZGBS00.chargement_rsv($CZZ_CAF_NSQ_T16,$CZZ_NSQ_T36,'$CZZ_COD_UTL_BCD_RI',$CZZ_DEL_RUT_COD_RI,$CZZ_NBR_COD_SLA_L37_RI,$CZZ_DATE_JOUR_RI,$CZZ_DUPLICATE_RI,'$CZZ_COD_UTL_BCD_SOURCE_RI',$CZZ_TOPAGE_RI,'$CZZ_TABLE_NAME_RI','$CZZ_FIELD_NAME_RI','$CZZ_FIELD_NAME_CLE_RI','$CZZ_PREFIXE_RI',$CZZ_NSQ_T16)"
+2 Chargement du fichier des UEN SECTEUR
+  A $CCAT_BatchPublish/bin/jzz010y2 $CCAT_BatchPublish/plsql/czzgbs00.sql S
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbs01.ctl ${CZZ_INPUT_FILE_REP}/${CZZ_UEN_FILE} $TEC_CSV
+2 Generation des EAN Marque Propre
+  D $CCAT_BatchPublish/bin/jzz010y2 "CZZGBS00.chargement_rsv($CZZ_CAF_NSQ_T16,$CZZ_NSQ_T36,'$CZZ_COD_UTL_BCD_MP',$CZZ_DEL_RUT_COD_MP,$CZZ_NBR_COD_SLA_L37_MP,$CZZ_DATE_JOUR_MP,$CZZ_DUPLICATE_MP,'$CZZ_COD_UTL_BCD_SOURCE_MP',$CZZ_TOPAGE_MP,'$CZZ_TABLE_NAME_MP','$CZZ_FIELD_NAME_MP','$CZZ_FIELD_NAME_CLE_MP','$CZZ_PREFIXE_MP',$CZZ_NSQ_T16)"
+2 Chargement du fichier des codes EANNMP
+  B $CCAT_BatchPublish/bin/jzz010y1 czzgbs00.ctl ${CZZ_INPUT_FILE_REP}/${CZZ_EANNMP_FILE} $TEC_CSV
+2 Generation des EAN Non Marque Propre
+  D $CCAT_BatchPublish/bin/jzz010y2 "CZZGBS00.chargement_rsv($CZZ_CAF_NSQ_T16,$CZZ_NSQ_T36,'$CZZ_COD_UTL_BCD_NM',$CZZ_DEL_RUT_COD_NM,$CZZ_NBR_COD_SLA_L37_NM,$CZZ_DATE_JOUR_NM,$CZZ_DUPLICATE_NM,'$CZZ_COD_UTL_BCD_SOURCE_NM',$CZZ_TOPAGE_NM,'$CZZ_TABLE_NAME_NM','$CZZ_FIELD_NAME_NM','$CZZ_FIELD_NAME_CLE_NM','$CZZ_PREFIXE_MP',$CZZ_NSQ_T16)"
+2 Rebranchement des contraintes d integrite
+  D $CCAT_BatchPublish/bin/jzz010y2 "CZZGBS00.enable_constraints"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+1 Return to Servc menu
+  M PROCPL
+
+
+[CZZGTFxx] Alimentation de l'objet de gestion
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Reinitialisation des sequences
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_${LFLUX}" P
+2 Chargement des fichiers interfaces avec SQL*Loader
+  B sh ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+2 Creation des index avant l'enrichissement
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('$FLUX','$MIG_TABLESPACE_INDEX')"
+2 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}r.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_PARAMR_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('$FLUX','$MIG_TABLESPACE_INDEX')"
+2 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}s.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_PARAMS_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_${LFLUX}('${AUC_DBUSER}')" P
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Transfert Final dans la base de Production
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}','${FLUX}',$CZZ_DAT_SYS)"
+2 Suppression des index supplementaires d'optimisation du controle (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('${FLUX}')"
+2 Suppression des index supplementaires d'optimisation de l'enrichissement
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('${FLUX}')"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+2 Report des anomalies
+  A $CCAT_BatchPublish/bin/jzz010y8 $FLUX > ~/${TST_SCHEDULE}.ano
+  A vi ~/${TST_SCHEDULE}.ano
+1 Return to Mig menu
+  A export cpl_title=
+  M MIGMNU
+
+
+[CZZGTFxa] Alimentation de l'objet de gestion
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Reinitialisation des sequences
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_${LFLUX}" P
+2 Chargement des fichiers interfaces avec SQL*Loader
+  B sh ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+2 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('$FLUX','$MIG_TABLESPACE_INDEX')"
+2 Processus d'Enrichissement des donnees
+  B $CCAT_BatchPublish/bin/jzz010y9 $CZZ_NSQ_T16_USR $CZZ_DAT_SYS $CZZ_NSQ_T16 $CZZ_NSQ_VAR
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}r.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_NSQ_T16_USR},${CZZ_PARAMR_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('$FLUX','$MIG_TABLESPACE_INDEX')"
+2 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}s.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_PARAMS_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_${LFLUX}('${AUC_DBUSER}')" P
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Transfert Final dans la base de Production
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}','${FLUX}',$CZZ_DAT_SYS)"
+2 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('${FLUX}')"
+2 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('${FLUX}')"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+2 Report des anomalies
+  A $CCAT_BatchPublish/bin/jzz010y8 $FLUX > ~/${TST_SCHEDULE}.ano
+  A vi ~/${TST_SCHEDULE}.ano
+1 Return to Mig menu
+  A export cpl_title=
+  M MIGMNU
+
+[CZZGTFxm] Alimentation de l'objet de gestion
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Reinitialisation des sequences
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_${LFLUX}" P
+2 Chargement des fichiers interfaces avec SQL*Loader
+  B sh ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+2 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('$FLUX','$MIG_TABLESPACE_INDEX')"
+2 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}r.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_PARAMR_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('$FLUX','$MIG_TABLESPACE_INDEX')"
+2 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_${LFLUX}('${AUC_DBUSER}')" P
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Transfert Final dans la base de Production
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}','${FLUX}',$CZZ_DAT_SYS)"
+2 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('${FLUX}')"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+2 Report des anomalies
+  A $CCAT_BatchPublish/bin/jzz010y8 $FLUX > ~/${TST_SCHEDULE}.ano
+  A vi ~/${TST_SCHEDULE}.ano
+1 Return to Mig menu
+  A export cpl_title=
+  M MIGMNU
+
+[CZZGTFxi] Alimentation de l'objet de gestion
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Reinitialisation des sequences
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq_${LFLUX}" P
+2 Chargement des fichiers interfaces avec SQL*Loader
+  B sh ${CCAT_BatchTmp}/${LOGNAME}_${TST_SCHEDULE}_SQLL
+2 Creation des index avant l'enrichissement 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('$FLUX','$MIG_TABLESPACE_INDEX')"
+2 Processus d'Enrichissement des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}r.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_PARAMR_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+8 Iteration apres le premier enrichissement
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_valide('$FLUX')"
+  M ITERAR 4
+2 Creation des index supplementaires d'optimisation (foreign keys)
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_ctl('$FLUX','$MIG_TABLESPACE_INDEX')"
+2 Processus de Controle des donnees
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}s.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_PARAMS_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+8 Iteration apres le premier controle
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_valide('$FLUX')"
+  M ITERAS 4
+2 Gestion des erreurs en Cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_${LFLUX}('${AUC_DBUSER}')" P
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+8 Iteration apres le premier effet cascade
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_valide('$FLUX')"
+  M ITERAT 4
+2 Transfert Final dans la base de Production
+  B $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_trans_obj('${AUC_DBUSER}','${FLUX}',$CZZ_DAT_SYS)"
+2 Suppression des index supplementaires d'optimisation du controle (foreign keys) 
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_ctl('${FLUX}')"
+2 Suppression des index supplementaires d'optimisation de l'enrichissement  
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('${FLUX}')"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+2 Report des anomalies
+  A $CCAT_BatchPublish/bin/jzz010y8 $FLUX > ~/${TST_SCHEDULE}.ano
+  A vi ~/${TST_SCHEDULE}.ano
+1 Return to Mig menu
+  A export cpl_title=
+  M MIGMNU
+
+[ITERAR] Iteration de l enrichissement de
+5 Lancement d un fichier correctif
+  A export ITERNUM=`echo #Numero `
+  D $CCAT_BatchPublish/bin/jzz010y2 ${TST_TECHNICAL_REP}/itr${ITERNUM}.sql S
+2 Relance de l enrichissement
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}r.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_PARAMR_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Validation avant une nouvelle iteration
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_valide('$FLUX')"
+1 Return to Primary Flux menu
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_invalide('$FLUX')"
+  M CZZGTFxi 5
+
+[ITERAS] Iteration du controle de
+5 Lancement d un fichier correctif
+  A export ITERNUM=`echo #Numero `
+  D $CCAT_BatchPublish/bin/jzz010y2 ${TST_TECHNICAL_REP}/its${ITERNUM}.sql S
+2 Relance du controle
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbs${PRG_CODE}s.mig_main($CZZ_DAT_SYS,'$LOGNAME',${CZZ_PARAMS_NCL})"
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Validation avant une nouvelle iteration
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_valide('$FLUX')"
+1 Return to Primary Flux menu
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_invalide('$FLUX')"
+  M CZZGTFxi 5
+
+[ITERAT] Iteration de l effet cascade de
+5 Lancement d un fichier correctif
+  A export ITERNUM=`echo #Numero `
+  D $CCAT_BatchPublish/bin/jzz010y2 ${TST_TECHNICAL_REP}/itt${ITERNUM}.sql S
+2 Relance de l effet cascade
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy3.mig_${FLUX}('${AUC_DBUSER}')" P
+  B $CCAT_BatchPublish/bin/jzz010y7 $FLUX
+2 Validation avant une nouvelle iteration
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_valide('$FLUX')"
+1 Return to Primary Flux menu
+  A $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsy1.mig_invalide('$FLUX')"
+  M CZZGTFxi 5
+
+[CZZGTFZ2] Generation des filieres amonts (CZZGTFZ2)
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Processus de generation
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz2.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CZZ_NSQ_VAR)"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+1 Return to Proc menu
+  M PROCPL
+
+[CZZGTFZ3] Gestion du rattachement des art. à la ncl. de marche (CZZGTFZ3)
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Processus de generation
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz3.rat_art_ncl_marche($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16)"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+1 Return to previous menu
+  M MIGMNU
+
+[CZZGTFZ4] Generation des assortiments type (CZZGTFZ4)
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+5 Chargement du Jeux de Test
+  A tpdload ${TST_SCHEDULE} 1
+2 Reinitialisation des sequences
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq('GAT_GRP_ATY','NSQ_GAT')" P
+2 Processus de generation
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz4.gene_aty($CZZ_DAT_SYS,'$LOGNAME',$CZZ_MCH_NSQ_T16,$CZZ_MCH_NSQ_VAR)"
+5 Extraction du resultats
+  A tpdxtr  ${TST_SCHEDULE} 1
+5 Analyse du resultats
+  A bchcomp ${TST_SCHEDULE} 1
+1 Return to previous menu
+  M MIGMNU
+  
+[CZZGTFZ5] Eclatement des offres (CZZGTFZ5)
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+2 Reinitialisation des sequences
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz1.mig_seq('OFR_OFFRE','NSQ_OFR')" P
+2 Chargement de la table MIG_OFR_OFFRE
+  D $CCAT_BatchPublish/bin/jzz010y1 czzgbsz5.ctl ${CZZ_INPUT_FILE_REP}/offres.dat $TEC_CSV
+2 Creation des indexes
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_cree_ind_avt_enr('OFR','$MIG_TABLESPACE_INDEX')"
+2 Eclatement des offres
+  A export CZZ_PARAM_NNC_ECLT=$NNC_NSQ_T16_ECLT,$NNC_NSQ_VRN_ECLT,$NSQ_NNC_ECLT
+  A export CZZ_PARAM_NNC_LIB_OFR=$NNC_NSQ_T16_LIB_OFR,$NNC_NSQ_VRN_LIB_OFR,$NSQ_NNC_LIB_OFR
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz5.eclat_offre($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16,$CCAT_BATCH_LAN,$CZZ_NSQ_T01,$CZZ_PARAM_NNC_ECLT,$CZZ_PARAM_NNC_LIB_OFR)"
+2 Suppression des indexes
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsx5.mig_drop_ind_avt_enr('OFR')" 
+1 Return to previous menu
+  M MIGMNU
+  
+[CZZGTFZ6] Initilalisation de la structure tarifaire Bazar (CZZGTFZ6)
+3 Modification des parametres d'env.
+  P ${TST_TECHNICAL_REP} ${TST_TECHNICAL_NAM} 1
+2 Chargement de la table frsremises.csv
+  D $CCAT_BatchPublish/bin/jzz010y1 czzgbsz6.ctl ${CZZ_INPUT_FILE_REP}/frsremises.csv $TEC_CSV
+2 Initialisation de la structure tarifaire
+  D $CCAT_BatchPublish/bin/jzz010y2 "mig_czzgbsz6.mig_main($CZZ_DAT_SYS,'$LOGNAME',$CZZ_NSQ_T16)"
+1 Return to Proc menu
+  M PROCPL
+
+[USRENV] Gestion de l environnement de l utilisateur courant
+2 Validation des variables d environnement utilisees par l Architecture Technique Batch
+  V ARCHTECH
+2 Validation des variables d environnement utilisees en Batch
+  V BATCH
+2 Validation des variables d environnement utilisees pour Oracle
+  V ORACLE
+2 Creation du fichier des parametres de la migration
+  A if [ -f ${HOME}/mig.par ]; then cp ${HOME}/mig.par ${HOME}/mig.par.$$ ; fi
+  F "- ------- Parametres Generaux --------" > ${HOME}/mig.par
+  F "- Repertoire des fichiers de migration :" > ${HOME}/mig.par
+  F "CZZ_INPUT_FILE_REP=${CCAT_TransferPublish}/${CCAT_TransferReceive}" >> ${HOME}/mig.par
+  F "- Site adm. de l Utilisateur :" >> ${HOME}/mig.par
+  F "CZZ_NSQ_T16_USR=8" >> ${HOME}/mig.par
+  F "- Site adm. de la nomenclature de ref. :" >> ${HOME}/mig.par
+  F "CZZ_NSQ_T16=8" >> ${HOME}/mig.par
+  F "- Variante de la nomenclature de ref. :" >> ${HOME}/mig.par
+  F "CZZ_NSQ_VAR=1" >> ${HOME}/mig.par
+  F "- Site adm. de la nomenclature de marche :" >> ${HOME}/mig.par
+  F "CZZ_MCH_NSQ_T16=8" >> ${HOME}/mig.par
+  F "- Variante de la nomenclature de marche :" >> ${HOME}/mig.par
+  F "CZZ_MCH_NSQ_VAR=3" >> ${HOME}/mig.par
+  F "- Date systeme :" >> ${HOME}/mig.par
+  F "CZZ_DAT_SYS=sysdate" >> ${HOME}/mig.par
+  F "- Table Space reserve aux donnees de migration :" >> ${HOME}/mig.par
+  F "MIG_TABLESPACE=CZZ_DATA_01" >> ${HOME}/mig.par
+  F "- Table Space reserve aux indexes de migration :" >> ${HOME}/mig.par
+  F "MIG_TABLESPACE_INDEX=CZZ_IDX_01" >> ${HOME}/mig.par
+  F "- ------- Eclatement des offres ---------" >> ${HOME}/mig.par
+  F "- Devise des offres:" >> ${HOME}/mig.par
+  F "CZZ_NSQ_T01=3000024" >> ${HOME}/mig.par
+  F "- Niveau eclatement des offres :" >> ${HOME}/mig.par
+  F "NNC_NSQ_T16_ECLT=8" >> ${HOME}/mig.par
+  F "NNC_NSQ_VRN_ECLT=3" >> ${HOME}/mig.par
+  F "NSQ_NNC_ECLT=3" >> ${HOME}/mig.par
+  F "- Niveau de recherche du libelle offre (marche):" >> ${HOME}/mig.par
+  F "NNC_NSQ_T16_LIB_OFR=8" >> ${HOME}/mig.par
+  F "NNC_NSQ_VRN_LIB_OFR=3" >> ${HOME}/mig.par
+  F "NSQ_NNC_LIB_OFR=2" >> ${HOME}/mig.par
+  F "- ------- Batch Applicatifs ---------" >> ${HOME}/mig.par
+  F "- Date systeme :" >> ${HOME}/mig.par
+  A echo "CXX_DATE=$(date +%Y%m%d)" >> ${HOME}/mig.par
+  F "- ------- Chargement Bottin Fournisseur ---------" >> ${HOME}/mig.par
+  F "- Site administrateur de l utilisateur :" >> ${HOME}/mig.par
+  F "CAD_NSQ_T16=8" >> ${HOME}/mig.par
+  F "- Emplacement du fichier bottin " >> ${HOME}/mig.par
+  A echo "- sous-repertoire de CCAT_BATCH_PATH=$CCAT_BATCH_PATH" >> ${HOME}/mig.par
+  F "CAD_FILE_DAT=." >> ${HOME}/mig.par
+  F "-----------------------------" >> ${HOME}/mig.par
+  F "- Specific Serveur de Codes -" >> ${HOME}/mig.par
+  F "-----------------------------" >> ${HOME}/mig.par
+  F "- Site adm. du serveur de code. :" >> ${HOME}/mig.par
+  F "CZZ_CAF_NSQ_T16=3" >> ${HOME}/mig.par
+  F "- CZZ_RIN_FILE=cod_code.csv" >> ${HOME}/mig.par
+  F "- Code utlisateur banque RI :" >> ${HOME}/mig.par
+  F "- NSQ Application Cliente :" >> ${HOME}/mig.par
+  F "CZZ_NSQ_T36=300001" >> ${HOME}/mig.par
+  F "- Fichier des RI a charger :" >> ${HOME}/mig.par
+  F "CZZ_COD_UTL_BCD_RI=RIN" >> ${HOME}/mig.par
+  F "- Delai avant restitution d un code RI :" >> ${HOME}/mig.par
+  F "CZZ_DEL_RUT_COD_RI=200" >> ${HOME}/mig.par
+  F "- Nbre de code RI restant avant alerte :" >> ${HOME}/mig.par
+  F "CZZ_NBR_COD_SLA_L37_RI=5000" >> ${HOME}/mig.par
+  F "- Date du jour fct. pour les codes RI :" >> ${HOME}/mig.par
+  F "- CZZ_DATE_JOUR_RI=\'01-jun-1999\'" >> ${HOME}/mig.par
+  F "CZZ_DATE_JOUR_RI=sysdate" >> ${HOME}/mig.par
+  F "- Booleen (TRUE/FALSE) de duplication pour les codes RI :" >> ${HOME}/mig.par
+  F "CZZ_DUPLICATE_RI=FALSE" >> ${HOME}/mig.par
+  F "- Code utilisateur de la banque source (en cas de duplication RI) :" >> ${HOME}/mig.par
+  F "CZZ_COD_UTL_BCD_SOURCE_RI=NULL" >> ${HOME}/mig.par
+  F "- Valeur du Prefix des codes (en cas de duplication RI) :" >> ${HOME}/mig.par
+  F "CZZ_PREFIXE_RI=NULL" >> ${HOME}/mig.par
+  F "- Booleen (TRUE/FALSE) de topage pour les codes RI :" >> ${HOME}/mig.par
+  F "CZZ_TOPAGE_RI=TRUE" >> ${HOME}/mig.par
+  F "- Code de la table a toper (en cas de topage RI) :" >> ${HOME}/mig.par
+  F "CZZ_TABLE_NAME_RI=RIN_REF_INT" >> ${HOME}/mig.par
+  F "- Champ de la table a toper (en cas de topage RI) :" >> ${HOME}/mig.par
+  F "CZZ_FIELD_NAME_RI=COD_UTL_RIN" >> ${HOME}/mig.par
+  F "- Champ compl. cle de la table a toper (en cas de topage RI) :" >> ${HOME}/mig.par
+  F "CZZ_FIELD_NAME_CLE_RI=NSQ_T16" >> ${HOME}/mig.par
+  F "-----------------------------" >> ${HOME}/mig.par
+  F "- Nom du fichier UEN SECTEUR :" >> ${HOME}/mig.par
+  F "CZZ_UEN_FILE=mig_uen_secteur.csv" >> ${HOME}/mig.par
+  F "- Code utlisateur banque Marque Propre :" >> ${HOME}/mig.par
+  F "CZZ_COD_UTL_BCD_MP=EANMP" >> ${HOME}/mig.par
+  F "- Delai avant restitution d un code MP :" >> ${HOME}/mig.par
+  F "CZZ_DEL_RUT_COD_MP=200" >> ${HOME}/mig.par
+  F "- Nbre de code MP restant avant alerte :" >> ${HOME}/mig.par
+  F "CZZ_NBR_COD_SLA_L37_MP=5000" >> ${HOME}/mig.par
+  F "- Date du jour fct. pour les codes MP :" >> ${HOME}/mig.par
+  F "- CZZ_DATE_JOUR_MP=\'01-jun-1999\'" >> ${HOME}/mig.par
+  F "CZZ_DATE_JOUR_MP=sysdate" >> ${HOME}/mig.par
+  F "- Booleen (TRUE/FALSE) de duplication pour les codes MP :" >> ${HOME}/mig.par
+  F "CZZ_DUPLICATE_MP=TRUE" >> ${HOME}/mig.par
+  F "- Code utilisateur de la banque source (en cas de duplication MP) :" >> ${HOME}/mig.par
+  F "CZZ_COD_UTL_BCD_SOURCE_MP=RIN" >> ${HOME}/mig.par
+  F "- Valeur du Prefix des codes (en cas de duplication MP) :" >> ${HOME}/mig.par
+  F "CZZ_PREFIXE_MP=325456" >> ${HOME}/mig.par
+  F "- Booleen (TRUE/FALSE) de topage pour les codes MP :" >> ${HOME}/mig.par
+  F "CZZ_TOPAGE_MP=FALSE" >> ${HOME}/mig.par
+  F "- Code de la table a toper (en cas de topage MP) :" >> ${HOME}/mig.par
+  F "CZZ_TABLE_NAME_MP=MIG_UEN_SECTEUR" >> ${HOME}/mig.par
+  F "- Champ de la table a toper (en cas de topage MP) :" >> ${HOME}/mig.par
+  F "CZZ_FIELD_NAME_MP=COD_UEN" >> ${HOME}/mig.par
+  F "- Champ compl. cle de la table a toper (en cas de topage MP) :" >> ${HOME}/mig.par
+  F "CZZ_FIELD_NAME_CLE_MP=NSQ_T16" >> ${HOME}/mig.par
+  F "-----------------------------" >> ${HOME}/mig.par
+  F "- Code utlisateur banque Non Marque Propre :" >> ${HOME}/mig.par
+  F "CZZ_COD_UTL_BCD_NM=EANNMP" >> ${HOME}/mig.par
+  F "- Fichier des EAN non marque propre :" >> ${HOME}/mig.par
+  F "CZZ_EANNMP_FILE=eannmp.dat" >> ${HOME}/mig.par
+  F "- Delai avant restitution d un code NMP :" >> ${HOME}/mig.par
+  F "CZZ_DEL_RUT_COD_NM=200" >> ${HOME}/mig.par
+  F "- Nbre de code NMP restant avant alerte :" >> ${HOME}/mig.par
+  F "CZZ_NBR_COD_SLA_L37_NM=5000" >> ${HOME}/mig.par
+  F "- Date du jour fct. pour les codes NMP :" >> ${HOME}/mig.par
+  F "- CZZ_DATE_JOUR_NM=\'01-jun-1999\'" >> ${HOME}/mig.par
+  F "CZZ_DATE_JOUR_NM=sysdate" >> ${HOME}/mig.par
+  F "- Booleen (TRUE/FALSE) de duplication pour les codes NMP :" >> ${HOME}/mig.par
+  F "CZZ_DUPLICATE_NM=FALSE" >> ${HOME}/mig.par
+  F "- Code utilisateur de la banque source (en cas de duplication NMP) :" >> ${HOME}/mig.par
+  F "CZZ_COD_UTL_BCD_SOURCE_NM=NULL" >> ${HOME}/mig.par
+  F "- Valeur du Prefix des codes (en cas de duplication NMP) :" >> ${HOME}/mig.par
+  F "CZZ_PREFIXE_NM=353756" >> ${HOME}/mig.par
+  F "- Booleen (TRUE/FALSE) de topage pour les codes NMP :" >> ${HOME}/mig.par
+  F "CZZ_TOPAGE_NM=TRUE" >> ${HOME}/mig.par
+  F "- Code de la table a toper (en cas de topage NMP) :" >> ${HOME}/mig.par
+  F "CZZ_TABLE_NAME_NM=MIG_UEN_SECTEUR" >> ${HOME}/mig.par
+  F "- Champ de la table a toper (en cas de topage NMP) :" >> ${HOME}/mig.par
+  F "CZZ_FIELD_NAME_NM=COD_UEN" >> ${HOME}/mig.par
+  F "- Champ compl. cle de la table a toper (en cas de topage NMP) :" >> ${HOME}/mig.par
+  F "CZZ_FIELD_NAME_CLE_NM=NSQ_T16" >> ${HOME}/mig.par
+  P ${HOME} mig.par 1
+2 Modification des parametres de la migration ($HOME/mig.par)
+  P ${HOME} mig.par 1
+1 Return to Main menu
+  M MAIN
+
+[TST] Gestion des parametres d environnements lies aux arborescences de test
+3 Validation des variables d environnement utilisees en Test
+  V TEST
+3 Creation du fichier des parametres lies aux tests
+  A if [ -f ${HOME}/mig_tst.par ]; then cp ${HOME}/mig_tst.par ${HOME}/mig_tst.par.$$ ; fi
+  F "- Nom du fichier parametre :" > ${HOME}/mig_tst.par
+  F "TST_TECHNICAL_NAM=c1_par.lst" >> ${HOME}/mig_tst.par
+  F "- Repertoire technique contenant le fichier parametre :" >> ${HOME}/mig_tst.par
+  F "TST_TECHNICAL_REP=\"$\"{HOME}/\"$\"{CCAT_NIV_TST}/\"$\"{TST_SCHEDULE}_\"$\"{CCAT_COD_TST}/technical" >> ${HOME}/mig_tst.par
+  P ${HOME} mig_tst.par 1
+3 Modification des parametres lies aux tests ($HOME/mig_tst.par)
+  P ${HOME} mig_tst.par 1
+1 Return to Main menu
+  M MAIN
